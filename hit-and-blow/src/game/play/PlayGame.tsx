@@ -154,7 +154,19 @@ function AppPlayGame() {
           
           <div  className="control-row">
             {/* メニューに戻る */}
-            <button className="control-btn reset-btn" onClick={() => navigate('/')}>{texts.game.backMenu}</button>
+            <button className="control-btn reset-btn" 
+              onClick={() =>
+                navigate('/', {
+                  state: {
+                    maxDigits,
+                    useButton,
+                    ruleDuplication,
+                  },
+                })
+              }
+            >
+              {texts.game.backMenu}
+            </button>
             {/* リセット */}
             <button className="control-btn reset-btn" onClick={onReset}>{texts.game.gameReset}</button>
           </div>
