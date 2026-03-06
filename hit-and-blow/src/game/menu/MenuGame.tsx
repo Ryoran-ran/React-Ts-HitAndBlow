@@ -22,8 +22,8 @@ export default function AppMenuGame() {
   return (
     <main className="menu-layout">
       <section className="menu-card">
-        <h2 className="menu-title">ゲーム設定</h2>
-        <p className="menu-subtitle">プレイ前にルールを設定できます。</p>
+        <h2 className="menu-title">{texts.menu.menuTitle}</h2>
+        <p className="menu-subtitle">{texts.menu.menuTitle}</p>
 
         {/* 桁数 */}
         <div className="menu-field">
@@ -65,7 +65,7 @@ export default function AppMenuGame() {
             checked={ruleDuplication}
             onChange={(e) => setRuleDuplication(e.target.checked)}
           />
-          重複あり
+          {texts.menu.ruleDuplication}
         </label>
 
         {/* ゲームスタート */}
@@ -81,7 +81,7 @@ export default function AppMenuGame() {
             })
           }
         >
-          ゲーム開始
+          {texts.menu.gameStart}
         </button>
       </section>
     </main>

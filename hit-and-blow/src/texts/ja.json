@@ -5,8 +5,12 @@
   }
 
   ,"menu":{
-    "digits":"回答桁数"
+    "menuTitle":"ゲーム設定"
+    ,"menuExplain":"プレイ前にルールを設定できます。"
+    ,"digits":"回答桁数"
     ,"useButton":"ボタン数"
+    ,"ruleDuplication":"重複あり"
+    ,"gameStart":"ゲームスタート"
   }
 
   ,"game": {
