@@ -16,6 +16,7 @@ export default function AppMenuGame() {
         <h2 className="menu-title">ゲーム設定</h2>
         <p className="menu-subtitle">プレイ前にルールを設定できます。</p>
 
+        {/* 桁数 */}
         <div className="menu-field">
           <label className="menu-label" htmlFor="max-digits">
             {texts.menu.digits}
@@ -31,6 +32,7 @@ export default function AppMenuGame() {
           />
         </div>
 
+        {/* ボタン数 */}
         <div className="menu-field">
           <label className="menu-label" htmlFor="use-button">
             {texts.menu.useButton}
@@ -46,6 +48,7 @@ export default function AppMenuGame() {
           />
         </div>
 
+        {/* 重複あり */}
         <label className="menu-check" htmlFor="rule-duplication">
           <input
             id="rule-duplication"
@@ -56,6 +59,7 @@ export default function AppMenuGame() {
           重複あり
         </label>
 
+        {/* ゲームスタート */}
         <button
           className="menu-start-btn"
           onClick={() =>
