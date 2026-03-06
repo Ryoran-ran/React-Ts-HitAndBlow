@@ -1,0 +1,118 @@
+.play-layout {
+  display: grid;
+  grid-template-columns: minmax(340px, 1fr) minmax(360px, 1.2fr);
+  gap: 24px;
+  padding: 24px;
+  align-items: start;
+}
+
+.left-panel,
+.right-panel {
+  background: #d8d8d8;
+  border: 1px solid #c5c5c5;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.1;
+  font-weight: 700;
+  text-align: left;
+}
+
+.guess-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #bdbdbd;
+  border-radius: 8px;
+  background: #f4f4f4;
+  color: #111827;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(56px, 1fr));
+  gap: 10px;
+}
+
+.number-grid button {
+  min-height: 48px;
+  font-size: 30px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.answer-btn {
+  width: 100%;
+  min-height: 52px;
+  font-size: 30px;
+}
+
+.right-panel {
+  height: 70vh;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.history-item {
+  padding: 8px 10px;
+  background: #efefef;
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .play-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .right-panel {
+    height: 50vh;
+    max-height: 50vh;
+  }
+}
+
+.control-btn {
+  min-height: 56px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  margin-left: 0;
+}
+
+.control-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.reset-btn {
+  min-height: 56px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  margin-left: auto;   /* 右寄せ */
+}
