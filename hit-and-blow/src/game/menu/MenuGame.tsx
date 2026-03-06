@@ -1,14 +1,23 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
+
+type PlaySettings = {
+  maxDigits?: number
+  useButton?: number
+  ruleDuplication?: boolean
+}
 
 export default function AppMenuGame() {
   const navigate = useNavigate()
 
-  const [ruleDuplication, setRuleDuplication] = useState(false)
-  const [maxDigits, setMaxDigits] = useState(4)
-  const [useButton, setUseButton] = useState(10)
+  const location = useLocation()
+  const settings = (location.state ?? {}) as PlaySettings
+
+  const [ruleDuplication, setRuleDuplication] = useState(settings.ruleDuplication ?? false)
+  const [maxDigits, setMaxDigits] = useState(settings.maxDigits ?? 4)
+  const [useButton, setUseButton] = useState(settings.useButton ?? 10)
 
   return (
     <main className="menu-layout">
