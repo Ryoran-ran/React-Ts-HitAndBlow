@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
+import * as MenuGame from './function/Menu'
 
 type PlaySettings = {
   maxDigits?: number
@@ -37,7 +38,19 @@ export default function AppMenuGame() {
             value={maxDigits}
             max={10}
             min={1}
-            onChange={(e) => setMaxDigits(Number(e.target.value))}
+            onChange={(e) => 
+              {
+                const nextMaxDigit = Number(e.target.value)
+                setMaxDigits(nextMaxDigit)
+
+                const fixedMaxDigits = MenuGame.fixButtonToDigit(
+                  nextMaxDigit,
+                  useButton,
+                  ruleDuplication
+                )
+                setMaxDigits(fixedMaxDigits)
+              }
+            }
           />
         </div>
 
@@ -53,7 +66,19 @@ export default function AppMenuGame() {
             value={useButton}
             max={10}
             min={3}
-            onChange={(e) => setUseButton(Number(e.target.value))}
+            onChange={(e) => 
+                {
+                  const nextUseButton = Number(e.target.value)
+                  setUseButton(nextUseButton)
+
+                  const fixedMaxDigits = MenuGame.fixButtonToDigit(
+                    maxDigits,
+                    nextUseButton,
+                    ruleDuplication
+                  )
+                  setMaxDigits(fixedMaxDigits)
+              }
+            }
           />
         </div>
 
@@ -63,7 +88,19 @@ export default function AppMenuGame() {
             id="rule-duplication"
             type="checkbox"
             checked={ruleDuplication}
-            onChange={(e) => setRuleDuplication(e.target.checked)}
+            onChange={(e) => 
+              {
+                const nextRuleDuplication = e.target.checked
+                setRuleDuplication(nextRuleDuplication)
+
+                const fixedMaxDigits = MenuGame.fixButtonToDigit(
+                  maxDigits,
+                  useButton,
+                  nextRuleDuplication
+                )
+                setMaxDigits(fixedMaxDigits)
+              }
+            }
           />
           {texts.menu.ruleDuplication}
         </label>
