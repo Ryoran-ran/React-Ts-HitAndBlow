@@ -3,12 +3,7 @@ import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
 import * as MenuGame from './function/Menu'
-
-type PlaySettings = {
-  maxDigits?: number
-  useButton?: number
-  ruleDuplication?: boolean
-}
+import type {PlaySettings} from '../common/function/type.ts'
 
 export default function AppMenuGame() {
   const navigate = useNavigate()

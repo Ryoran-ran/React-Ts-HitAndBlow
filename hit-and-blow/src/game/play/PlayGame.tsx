@@ -3,13 +3,8 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
+import type {PlaySettings} from '../common/function/type.ts'
 import './play.css'
-
-type PlaySettings = {
-  maxDigits?: number
-  useButton?: number
-  ruleDuplication?: boolean
-}
 
 function AppPlayGame() {
   const navigate = useNavigate()
