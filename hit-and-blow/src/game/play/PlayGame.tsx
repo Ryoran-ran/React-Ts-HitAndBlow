@@ -12,9 +12,6 @@ function AppPlayGame() {
   const [answer, setAnswer] = useState('')
   const [hitBlowHistory, setHitBlowHistory] = useState<PlayGame.HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
-  // const [ruleDuplication] = useState(false);
-  // const [maxDigits] = useState(4)
-  // const [useButton] = useState(10)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
 
