@@ -3,14 +3,14 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
-import type {PlaySettings} from '../common/function/type.ts'
+import type {PlaySettings ,HitBlowResult} from '../common/function/type.ts'
 import './play.css'
 
 function AppPlayGame() {
   const navigate = useNavigate()
   const [text, setText] = useState('')
   const [answer, setAnswer] = useState('')
-  const [hitBlowHistory, setHitBlowHistory] = useState<PlayGame.HitBlowResult[]>([])
+  const [hitBlowHistory, setHitBlowHistory] = useState<HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
@@ -164,6 +164,7 @@ function AppPlayGame() {
           </div>
         </section>
 
+        {/* 履歴 */}
         <aside className="right-panel">
           <h2 className="panel-title">{texts.game.titleRightPanel}</h2>
           <div className="history-list">
