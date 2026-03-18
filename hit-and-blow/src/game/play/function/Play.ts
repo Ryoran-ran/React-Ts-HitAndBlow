@@ -1,19 +1,10 @@
 import texts from '../../../texts/ja.json'
+import type {JudgeResult} from '../../common/function/type.ts'
 
 export const MAX_DIGITS = 4
 
 // function/Play.ts
-export type JudgeResult = {
-  hit: number
-  blow: number
-}
 
-export type HitBlowResult = {
-    turn: number
-    guess: string
-    hit: number
-    blow: number
-}
 
 export function addDigit(current: string, digit: number ,maxDigits: number ,useButton: number): string {
     if (current.length >= maxDigits || digit >= useButton ) return current
