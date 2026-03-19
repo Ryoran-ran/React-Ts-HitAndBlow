@@ -14,18 +14,44 @@
   }
 
   ,"game": {
-    "numberButtons": [
-      { "value": "0", "label": "0" },
-      { "value": "1", "label": "1" },
-      { "value": "2", "label": "2" },
-      { "value": "3", "label": "3" },
-      { "value": "4", "label": "4" },
-      { "value": "5", "label": "5" },
-      { "value": "6", "label": "6" },
-      { "value": "7", "label": "7" },
-      { "value": "8", "label": "8" },
-      { "value": "9", "label": "9" }
-    ]
+    "numberButtons": {
+      "number": [
+        { "value": "0", "label": "0" },
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" }
+      ],
+      "kanji": [
+        { "value": "0", "label": "零" },
+        { "value": "1", "label": "一" },
+        { "value": "2", "label": "二" },
+        { "value": "3", "label": "三" },
+        { "value": "4", "label": "四" },
+        { "value": "5", "label": "五" },
+        { "value": "6", "label": "六" },
+        { "value": "7", "label": "七" },
+        { "value": "8", "label": "八" },
+        { "value": "9", "label": "九" }
+      ],
+      "heart": [
+        { "value": "0", "label": "🩷" },
+        { "value": "1", "label": "❤️" },
+        { "value": "2", "label": "🧡" },
+        { "value": "3", "label": "💛" },
+        { "value": "4", "label": "💚" },
+        { "value": "5", "label": "🩵" },
+        { "value": "6", "label": "💙" },
+        { "value": "7", "label": "💜" },
+        { "value": "8", "label": "🖤" },
+        { "value": "9", "label": "🤍" }
+      ]
+    }
     ,"delete":"←"
     ,"clear":"クリア"
     ,"answer":"回答"
