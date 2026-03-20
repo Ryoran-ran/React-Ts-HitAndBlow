@@ -5,6 +5,7 @@ export type PlaySettings = {
   useButton?: number
   ruleDuplication?: boolean
   buttonLabelMode?: ButtonLabelMode
+  answerLimit?: number
 }
 
 export type JudgeResult = {

@@ -14,6 +14,7 @@ export default function AppMenuGame() {
   const [ruleDuplication, setRuleDuplication] = useState(settings.ruleDuplication ?? false)
   const [maxDigits, setMaxDigits] = useState(settings.maxDigits ?? 4)
   const [useButton, setUseButton] = useState(settings.useButton ?? 10)
+  const [answerLimit, setAnswerLimit] = useState(settings.answerLimit ?? 0)
   const [buttonLabelMode, setButtonLabelMode] = useState<ButtonLabelMode>(
     settings.buttonLabelMode ?? 'number'
   )
@@ -80,6 +81,22 @@ export default function AppMenuGame() {
           />
         </div>
 
+        {/* 回答制限 */}
+        <div className="menu-field">
+          <label className="menu-label" htmlFor="answer-limit">
+            {texts.menu.answerLimit}
+          </label>
+          <input
+            id="answer-limit"
+            className="menu-input"
+            type="number"
+            value={answerLimit}
+            min={0}
+            onChange={(e) => setAnswerLimit(Number(e.target.value))}
+          />
+        </div>
+
+
         {/* ボタンラベル */}
         <div className="menu-field">
           <label className="menu-label" htmlFor="button-label-mode">
@@ -132,6 +149,7 @@ export default function AppMenuGame() {
                 useButton,
                 ruleDuplication,
                 buttonLabelMode,
+                answerLimit,
               },
             })
           }
