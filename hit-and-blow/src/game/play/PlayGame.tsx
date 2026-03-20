@@ -30,10 +30,12 @@ function AppPlayGame() {
   ) 
 
   const formatGuessLabel = (guess: string) => {
+    const separator = buttonLabelMode === 'roma' ? ' ' : ''
+
     return guess
       .split('')
       .map((digit) => buttonLabelMap[digit] ?? digit)
-      .join('')
+      .join(separator)
   }
 
   const onAnswer = useCallback(() => {
