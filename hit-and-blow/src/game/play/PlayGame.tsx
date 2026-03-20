@@ -168,6 +168,7 @@ function AppPlayGame() {
                     maxDigits,
                     useButton,
                     ruleDuplication,
+                    buttonLabelMode,
                   },
                 })
               }
