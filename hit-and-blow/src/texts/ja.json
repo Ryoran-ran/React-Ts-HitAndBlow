@@ -11,21 +11,79 @@
     ,"useButton":"ボタン数"
     ,"ruleDuplication":"重複あり"
     ,"gameStart":"ゲームスタート"
+    ,"buttonLabelMode": "ボタン表示"
+    ,"buttonLabelModeOptions": {
+      "number": "数字",
+      "kanji": "漢字",
+      "kanji_daiji": "大字",
+      "heart": "ハート",
+      "roma": "ローマ"
+    }
   }
 
   ,"game": {
-    "numberButtons": [
-      { "value": "0", "label": "0" },
-      { "value": "1", "label": "1" },
-      { "value": "2", "label": "2" },
-      { "value": "3", "label": "3" },
-      { "value": "4", "label": "4" },
-      { "value": "5", "label": "5" },
-      { "value": "6", "label": "6" },
-      { "value": "7", "label": "7" },
-      { "value": "8", "label": "8" },
-      { "value": "9", "label": "9" }
-    ]
+    "numberButtons": {
+      "number": [
+        { "value": "0", "label": "0" },
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" }
+      ],
+      "kanji": [
+        { "value": "0", "label": "◯" },
+        { "value": "1", "label": "一" },
+        { "value": "2", "label": "二" },
+        { "value": "3", "label": "三" },
+        { "value": "4", "label": "四" },
+        { "value": "5", "label": "五" },
+        { "value": "6", "label": "六" },
+        { "value": "7", "label": "七" },
+        { "value": "8", "label": "八" },
+        { "value": "9", "label": "九" }
+      ],
+      "kanji_daiji": [
+        { "value": "0", "label": "零" },
+        { "value": "1", "label": "壱" },
+        { "value": "2", "label": "弍" },
+        { "value": "3", "label": "参" },
+        { "value": "4", "label": "肆" },
+        { "value": "5", "label": "伍" },
+        { "value": "6", "label": "陸" },
+        { "value": "7", "label": "漆" },
+        { "value": "8", "label": "捌" },
+        { "value": "9", "label": "玖" }
+      ],
+      "heart": [
+        { "value": "0", "label": "🩷" },
+        { "value": "1", "label": "❤️" },
+        { "value": "2", "label": "🧡" },
+        { "value": "3", "label": "💛" },
+        { "value": "4", "label": "💚" },
+        { "value": "5", "label": "🩵" },
+        { "value": "6", "label": "💙" },
+        { "value": "7", "label": "💜" },
+        { "value": "8", "label": "🖤" },
+        { "value": "9", "label": "🤎" }
+      ],
+      "roma": [
+        { "value": "0", "label": "O " },
+        { "value": "1", "label": "I " },
+        { "value": "2", "label": "II " },
+        { "value": "3", "label": "III " },
+        { "value": "4", "label": "IV " },
+        { "value": "5", "label": "V " },
+        { "value": "6", "label": "VI " },
+        { "value": "7", "label": "VII " },
+        { "value": "8", "label": "VIII " },
+        { "value": "9", "label": "IX " }
+      ]
+    }
     ,"delete":"←"
     ,"clear":"クリア"
     ,"answer":"回答"
