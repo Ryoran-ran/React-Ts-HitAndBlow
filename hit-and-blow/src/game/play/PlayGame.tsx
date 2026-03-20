@@ -3,7 +3,7 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
-import type {PlaySettings ,HitBlowResult} from '../common/function/type.ts'
+import type {PlaySettings ,HitBlowResult, ButtonLabelMode } from '../common/function/type.ts'
 import './play.css'
 
 function AppPlayGame() {
@@ -18,11 +18,21 @@ function AppPlayGame() {
   const maxDigits = settings.maxDigits ?? 4
   const useButton = settings.useButton ?? 10
   const ruleDuplication = settings.ruleDuplication ?? false
+  const buttonLabelMode = (settings.buttonLabelMode ?? 'number') as ButtonLabelMode
 
-  const numberButtons = Array.from({ length: useButton }, (_, i) => ({
-    value: String(i),
-    label: String(i),
-  }))
+  const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
+
+  const buttonLabelMap = Object.fromEntries(
+    numberButtons.map((btn) => [btn.value, btn.label])
+  ) 
+
+  const formatGuessLabel = (guess: string) => {
+    return guess
+      .split('')
+      .map((digit) => buttonLabelMap[digit] ?? digit)
+      .join('')
+  }
+
 
 
   const onAnswer = useCallback(() => {
@@ -106,7 +116,12 @@ function AppPlayGame() {
           <h2 className="panel-title">{texts.game.titleLeftPanel}</h2>
 
           {/* 数字入力部 */}
-          <input type="text" value={text} readOnly className="guess-input" />
+          <input
+            type="text"
+            value={formatGuessLabel(text)}
+            readOnly
+            className="guess-input"
+          />
 
           {/* 数字ボタン */}
           <div className="number-grid">
@@ -176,7 +191,7 @@ function AppPlayGame() {
                   {CommonFunction.format(
                     texts.game.historyMap,
                     item.turn,
-                    item.guess,
+                    formatGuessLabel(item.guess),
                     item.hit,
                     item.blow
                   )}

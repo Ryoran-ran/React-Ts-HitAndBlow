@@ -3,7 +3,7 @@ import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
 import * as MenuGame from './function/Menu'
-import type {PlaySettings} from '../common/function/type.ts'
+import type {PlaySettings , ButtonLabelMode} from '../common/function/type.ts'
 
 export default function AppMenuGame() {
   const navigate = useNavigate()
@@ -14,6 +14,9 @@ export default function AppMenuGame() {
   const [ruleDuplication, setRuleDuplication] = useState(settings.ruleDuplication ?? false)
   const [maxDigits, setMaxDigits] = useState(settings.maxDigits ?? 4)
   const [useButton, setUseButton] = useState(settings.useButton ?? 10)
+  const [buttonLabelMode, setButtonLabelMode] = useState<ButtonLabelMode>(
+    settings.buttonLabelMode ?? 'number'
+  )
 
   return (
     <main className="menu-layout">
@@ -77,6 +80,24 @@ export default function AppMenuGame() {
           />
         </div>
 
+        {/* ボタンラベル */}
+        <div className="menu-field">
+          <label className="menu-label" htmlFor="button-label-mode">
+            {texts.menu.buttonLabelMode}
+          </label>
+          <select
+            id="button-label-mode"
+            className="menu-input"
+            value={buttonLabelMode}
+            onChange={(e) => setButtonLabelMode(e.target.value as ButtonLabelMode)}
+          >
+            <option value="number">{texts.menu.buttonLabelModeOptions.number}</option>
+            <option value="kanji">{texts.menu.buttonLabelModeOptions.kanji}</option>
+            <option value="heart">{texts.menu.buttonLabelModeOptions.heart}</option>
+            <option value="roma">{texts.menu.buttonLabelModeOptions.roma}</option>
+          </select>
+        </div>
+
         {/* 重複あり */}
         <label className="menu-check" htmlFor="rule-duplication">
           <input
@@ -91,7 +112,7 @@ export default function AppMenuGame() {
                 const fixedMaxDigits = MenuGame.fixButtonToDigit(
                   maxDigits,
                   useButton,
-                  nextRuleDuplication
+                  nextRuleDuplication,
                 )
                 setMaxDigits(fixedMaxDigits)
               }
@@ -109,6 +130,7 @@ export default function AppMenuGame() {
                 maxDigits,
                 useButton,
                 ruleDuplication,
+                buttonLabelMode,
               },
             })
           }

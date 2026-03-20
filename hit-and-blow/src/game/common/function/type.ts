@@ -1,7 +1,10 @@
+export type ButtonLabelMode = 'number' | 'kanji' | 'heart'
+
 export type PlaySettings = {
   maxDigits?: number
   useButton?: number
   ruleDuplication?: boolean
+  buttonLabelMode?: ButtonLabelMode
 }
 
 export type JudgeResult = {

@@ -3,9 +3,6 @@ import type {JudgeResult} from '../../common/function/type.ts'
 
 export const MAX_DIGITS = 4
 
-// function/Play.ts
-
-
 export function addDigit(current: string, digit: number ,maxDigits: number ,useButton: number): string {
     if (current.length >= maxDigits || digit >= useButton ) return current
     return current + String(digit)
