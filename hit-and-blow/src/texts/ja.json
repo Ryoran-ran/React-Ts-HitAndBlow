@@ -95,6 +95,7 @@
     ,"titleLeftPanel":"数字"
     ,"titleRightPanel":"履歴"
     ,"backMenu":"メニューに戻る"
+    ,"answerLimitText":"回答制限: {0} 回"
   }
 
   ,"errors":{
