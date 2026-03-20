@@ -1,4 +1,4 @@
-export type ButtonLabelMode = 'number' | 'kanji' | 'heart'
+export type ButtonLabelMode = 'number' | 'kanji' | 'kanji_daiji' | 'heart' | 'roma'
 
 export type PlaySettings = {
   maxDigits?: number

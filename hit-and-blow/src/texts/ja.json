@@ -15,8 +15,9 @@
     ,"buttonLabelModeOptions": {
       "number": "数字",
       "kanji": "漢字",
+      "kanji_daiji": "大字",
       "heart": "ハート",
-      "roma": "ローマ数字"
+      "roma": "ローマ"
     }
   }
 
@@ -35,7 +36,7 @@
         { "value": "9", "label": "9" }
       ],
       "kanji": [
-        { "value": "0", "label": "零" },
+        { "value": "0", "label": "◯" },
         { "value": "1", "label": "一" },
         { "value": "2", "label": "二" },
         { "value": "3", "label": "三" },
@@ -45,6 +46,18 @@
         { "value": "7", "label": "七" },
         { "value": "8", "label": "八" },
         { "value": "9", "label": "九" }
+      ],
+      "kanji_daiji": [
+        { "value": "0", "label": "零" },
+        { "value": "1", "label": "壱" },
+        { "value": "2", "label": "弍" },
+        { "value": "3", "label": "参" },
+        { "value": "4", "label": "肆" },
+        { "value": "5", "label": "伍" },
+        { "value": "6", "label": "陸" },
+        { "value": "7", "label": "漆" },
+        { "value": "8", "label": "捌" },
+        { "value": "9", "label": "玖" }
       ],
       "heart": [
         { "value": "0", "label": "🩷" },

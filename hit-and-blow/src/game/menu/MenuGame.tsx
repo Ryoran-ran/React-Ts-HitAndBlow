@@ -93,6 +93,7 @@ export default function AppMenuGame() {
           >
             <option value="number">{texts.menu.buttonLabelModeOptions.number}</option>
             <option value="kanji">{texts.menu.buttonLabelModeOptions.kanji}</option>
+            <option value="kanji_daiji">{texts.menu.buttonLabelModeOptions.kanji_daiji}</option>
             <option value="heart">{texts.menu.buttonLabelModeOptions.heart}</option>
             <option value="roma">{texts.menu.buttonLabelModeOptions.roma}</option>
           </select>
