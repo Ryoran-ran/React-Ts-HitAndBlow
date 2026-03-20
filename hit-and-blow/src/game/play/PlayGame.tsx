@@ -33,8 +33,6 @@ function AppPlayGame() {
       .join('')
   }
 
-
-
   const onAnswer = useCallback(() => {
     if (gameClear || text.length < maxDigits) return
 
