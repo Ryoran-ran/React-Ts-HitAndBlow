@@ -95,7 +95,8 @@
     ,"titleLeftPanel":"数字"
     ,"titleRightPanel":"履歴"
     ,"backMenu":"メニューに戻る"
-    ,"answerLimitText":"回答制限: {0} 回"
+    ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
+    ,"limitSentence":"回数制限(答え:{0})"
   }
 
   ,"errors":{

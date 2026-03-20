@@ -118,18 +118,22 @@ function AppPlayGame() {
     <>
       <main className="play-layout">
         <section className="left-panel">
-          {/* 数字タイトル */}
-          <h2 className="panel-title">{texts.game.titleLeftPanel}</h2>
+          <div className="panel-header">
+            
+            {/* 数字タイトル */}
+            <h2 className="panel-title">{texts.game.titleLeftPanel}</h2>
 
-          {/* 回答制限 */}
-          {answerLimit > 0 && (
-            <p className="answer-limit">
-              {CommonFunction.format(
-                texts.game.answerLimitText,
-                answerLimit
-              )}
-            </p>
-          )}
+            {/* 回答制限 */}
+            {answerLimit > 0 && (
+              <p className="answer-limit">
+                {CommonFunction.format(
+                  texts.game.answerLimitText,
+                  answerLimit,
+                  answerLimit - hitBlowHistory.length
+                )}
+              </p>
+            )}
+          </div>
 
           {/* 数字入力部 */}
           <input
@@ -174,7 +178,6 @@ function AppPlayGame() {
             {texts.game.answer}
           </button>
 
-          
           <div  className="control-row">
             {/* メニューに戻る */}
             <button className="control-btn reset-btn" 
@@ -185,6 +188,7 @@ function AppPlayGame() {
                     useButton,
                     ruleDuplication,
                     buttonLabelMode,
+                    answerLimit,
                   },
                 })
               }
@@ -213,12 +217,12 @@ function AppPlayGame() {
                     item.blow
                   )}
                   {gameClear && index === 0 ? texts.game.clearSentence : ''}
+                  {gameLimit && index === 0 ? CommonFunction.format(texts.game.limitSentence, formatGuessLabel(answer)) : ''}
                 </div>
               ))}
           </div>
         </aside>
       </main>
-      
     </>
   )
 }

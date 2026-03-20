@@ -20,12 +20,26 @@
   gap: 16px;
 }
 
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
 .panel-title {
   margin: 0;
   font-size: 2.1rem;
   line-height: 1.1;
   font-weight: 700;
   text-align: left;
+}
+
+.limit-text {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  text-align: right;
 }
 
 .guess-input {
@@ -115,4 +129,22 @@
   padding: 12px 20px;
   font-size: 1.1rem;
   margin-left: auto;   /* 右寄せ */
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.panel-title {
+  margin: 0;
+}
+
+.limit-text {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  text-align: right;
 }
