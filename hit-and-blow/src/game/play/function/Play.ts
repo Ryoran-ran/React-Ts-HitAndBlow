@@ -89,9 +89,24 @@ export function createAnswer(
     return nums.slice(0, maxDigits).join('')
 }
 
-
-
 //クリアチェック
 export function clearCheck(hit: number, length: number): boolean {
   return hit === length
+}
+
+export const Status = {
+    gameClear: 'gameClear',
+    gameLimit: 'gameLimit',
+    playing: 'playing'
+} as const
+
+//ステータス
+export function StatusType(gameClear: boolean, gameLimit: boolean): typeof Status[keyof typeof Status] {
+    if (gameClear) {
+        return Status.gameClear
+    }
+    if (gameLimit) {
+        return Status.gameLimit
+    }
+    return Status.playing
 }

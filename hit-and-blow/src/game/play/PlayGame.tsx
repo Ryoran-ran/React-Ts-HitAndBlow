@@ -13,6 +13,7 @@ function AppPlayGame() {
   const [hitBlowHistory, setHitBlowHistory] = useState<HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
   const [gameLimit, setGameLimit] = useState(false)
+  const status = PlayGame.StatusType(gameClear, gameLimit)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
 
@@ -36,7 +37,7 @@ function AppPlayGame() {
   }
 
   const onAnswer = useCallback(() => {
-    if (gameLimit || gameClear || text.length < maxDigits) return
+    if (status !== PlayGame.Status.playing || text.length < maxDigits) return
 
     const currentAnswer = answer === '' ? PlayGame.answerSet('' ,maxDigits ,useButton, ruleDuplication) : answer
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
@@ -73,7 +74,7 @@ function AppPlayGame() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (gameClear || gameLimit) return
+      if (status !== PlayGame.Status.playing) return
 
       if (event.key >= '0' && event.key <= '9') {
         setText((prev) => PlayGame.addDigit(prev, Number(event.key), maxDigits ,useButton))
@@ -153,7 +154,7 @@ function AppPlayGame() {
                     PlayGame.addDigit(prev, Number(btn.value), maxDigits, useButton)
                   )
                 }
-                disabled={gameClear || gameLimit}
+                disabled={status !== PlayGame.Status.playing || text.length >= maxDigits}
               >
                 {btn.label}
               </button>
@@ -163,18 +164,18 @@ function AppPlayGame() {
           
           <div className="control-row">
             {/* クリア */}
-            <button className="control-btn" onClick={() => setText('')} disabled={gameClear || gameLimit}>
+            <button className="control-btn" onClick={() => setText('')} disabled={status !== PlayGame.Status.playing || text.length === 0}>
               {texts.game.clear}
             </button>
 
             {/* １文字クリア */}
-            <button  className="control-btn" onClick={() => setText((prev) => PlayGame.removeLast(prev))} disabled={gameClear || gameLimit}>
+            <button  className="control-btn" onClick={() => setText((prev) => PlayGame.removeLast(prev))} disabled={status !== PlayGame.Status.playing || text.length === 0}>
               {texts.game.delete}
             </button>
           </div>
 
           {/* 回答 */}
-          <button onClick={onAnswer} disabled={gameLimit || gameClear || text.length < maxDigits} className="answer-btn">
+          <button onClick={onAnswer} disabled={status !== PlayGame.Status.playing || text.length < maxDigits} className="answer-btn">
             {texts.game.answer}
           </button>
 
@@ -216,8 +217,13 @@ function AppPlayGame() {
                     item.hit,
                     item.blow
                   )}
-                  {gameClear && index === 0 ? texts.game.clearSentence : ''}
-                  {gameLimit && index === 0 ? CommonFunction.format(texts.game.limitSentence, formatGuessLabel(answer)) : ''}
+                  {status === PlayGame.Status.gameClear && index === 0 ? texts.game.clearSentence : ''}
+                  {status === PlayGame.Status.gameLimit && index === 0 ?
+                    CommonFunction.format(
+                      texts.game.limitSentence
+                      ,formatGuessLabel(answer)) 
+                    : ''
+                  }
                 </div>
               ))}
           </div>
