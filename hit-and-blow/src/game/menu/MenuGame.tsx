@@ -3,7 +3,36 @@ import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
 import * as MenuGame from './function/Menu'
-import type {PlaySettings , ButtonLabelMode} from '../common/function/type.ts'
+import type {
+  PlaySettings,
+  ButtonLabelMode,
+  DifficultyPreset,
+  DifficultyPresetId,
+} from '../common/function/type.ts'
+
+const difficultyPresets: DifficultyPreset[] = [
+  { id: 'easy', maxDigits: 3, useButton: 6, answerLimit: 0, ruleDuplication: false },
+  { id: 'normal', maxDigits: 4, useButton: 8, answerLimit: 0, ruleDuplication: false },
+  { id: 'hard', maxDigits: 4, useButton: 10, answerLimit: 10, ruleDuplication: false },
+  { id: 'expert', maxDigits: 5, useButton: 10, answerLimit: 12, ruleDuplication: true },
+]
+
+function findPresetId(settings: {
+  maxDigits: number
+  useButton: number
+  answerLimit: number
+  ruleDuplication: boolean
+}): DifficultyPresetId {
+  const matchedPreset = difficultyPresets.find(
+    (preset) =>
+      preset.maxDigits === settings.maxDigits &&
+      preset.useButton === settings.useButton &&
+      preset.answerLimit === settings.answerLimit &&
+      preset.ruleDuplication === settings.ruleDuplication
+  )
+
+  return matchedPreset?.id ?? 'custom'
+}
 
 export default function AppMenuGame() {
   const navigate = useNavigate()
@@ -18,12 +47,70 @@ export default function AppMenuGame() {
   const [buttonLabelMode, setButtonLabelMode] = useState<ButtonLabelMode>(
     settings.buttonLabelMode ?? 'number'
   )
+  const [difficultyPreset, setDifficultyPreset] = useState<DifficultyPresetId>(
+    findPresetId({
+      maxDigits: settings.maxDigits ?? 4,
+      useButton: settings.useButton ?? 10,
+      answerLimit: settings.answerLimit ?? 0,
+      ruleDuplication: settings.ruleDuplication ?? false,
+    })
+  )
+
+  const syncPreset = (
+    nextSettings: {
+      maxDigits: number
+      useButton: number
+      answerLimit: number
+      ruleDuplication: boolean
+    }
+  ) => {
+    setDifficultyPreset(findPresetId(nextSettings))
+  }
+
+  const applyPreset = (presetId: DifficultyPresetId) => {
+    setDifficultyPreset(presetId)
+
+    if (presetId === 'custom') {
+      return
+    }
+
+    const preset = difficultyPresets.find((item) => item.id === presetId)
+    if (!preset) {
+      return
+    }
+
+    setMaxDigits(preset.maxDigits)
+    setUseButton(preset.useButton)
+    setAnswerLimit(preset.answerLimit)
+    setRuleDuplication(preset.ruleDuplication)
+  }
 
   return (
     <main className="menu-layout">
       <section className="menu-card">
         <h2 className="menu-title">{texts.menu.menuTitle}</h2>
         <p className="menu-subtitle">{texts.menu.menuTitle}</p>
+
+        <div className="menu-field">
+          <label className="menu-label" htmlFor="difficulty-preset">
+            {texts.menu.difficulty}
+          </label>
+          <select
+            id="difficulty-preset"
+            className="menu-input"
+            value={difficultyPreset}
+            onChange={(e) => applyPreset(e.target.value as DifficultyPresetId)}
+          >
+            <option value="easy">{texts.menu.difficultyOptions.easy}</option>
+            <option value="normal">{texts.menu.difficultyOptions.normal}</option>
+            <option value="hard">{texts.menu.difficultyOptions.hard}</option>
+            <option value="expert">{texts.menu.difficultyOptions.expert}</option>
+            <option value="custom">{texts.menu.difficultyOptions.custom}</option>
+          </select>
+          <p className="menu-subtitle">
+            {texts.menu.difficultyDescriptions[difficultyPreset]}
+          </p>
+        </div>
 
         {/* 桁数 */}
         <div className="menu-field">
@@ -48,6 +135,12 @@ export default function AppMenuGame() {
                   ruleDuplication
                 )
                 setMaxDigits(fixedMaxDigits)
+                syncPreset({
+                  maxDigits: fixedMaxDigits,
+                  useButton,
+                  answerLimit,
+                  ruleDuplication,
+                })
               }
             }
           />
@@ -76,6 +169,12 @@ export default function AppMenuGame() {
                     ruleDuplication
                   )
                   setMaxDigits(fixedMaxDigits)
+                  syncPreset({
+                    maxDigits: fixedMaxDigits,
+                    useButton: nextUseButton,
+                    answerLimit,
+                    ruleDuplication,
+                  })
               }
             }
           />
@@ -92,7 +191,16 @@ export default function AppMenuGame() {
             type="number"
             value={answerLimit}
             min={0}
-            onChange={(e) => setAnswerLimit(Number(e.target.value))}
+            onChange={(e) => {
+              const nextAnswerLimit = Number(e.target.value)
+              setAnswerLimit(nextAnswerLimit)
+              syncPreset({
+                maxDigits,
+                useButton,
+                answerLimit: nextAnswerLimit,
+                ruleDuplication,
+              })
+            }}
           />
         </div>
 
@@ -133,6 +241,12 @@ export default function AppMenuGame() {
                   nextRuleDuplication,
                 )
                 setMaxDigits(fixedMaxDigits)
+                syncPreset({
+                  maxDigits: fixedMaxDigits,
+                  useButton,
+                  answerLimit,
+                  ruleDuplication: nextRuleDuplication,
+                })
               }
             }
           />
