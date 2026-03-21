@@ -1,19 +1,7 @@
 import texts from '../../../texts/ja.json'
+import type {JudgeResult} from '../../common/function/type.ts'
 
 export const MAX_DIGITS = 4
-
-// function/Play.ts
-export type JudgeResult = {
-  hit: number
-  blow: number
-}
-
-export type HitBlowResult = {
-    turn: number
-    guess: string
-    hit: number
-    blow: number
-}
 
 export function addDigit(current: string, digit: number ,maxDigits: number ,useButton: number): string {
     if (current.length >= maxDigits || digit >= useButton ) return current
@@ -101,9 +89,24 @@ export function createAnswer(
     return nums.slice(0, maxDigits).join('')
 }
 
-
-
 //クリアチェック
 export function clearCheck(hit: number, length: number): boolean {
   return hit === length
+}
+
+export const Status = {
+    gameClear: 'gameClear',
+    gameLimit: 'gameLimit',
+    playing: 'playing'
+} as const
+
+//ステータス
+export function StatusType(gameClear: boolean, gameLimit: boolean): typeof Status[keyof typeof Status] {
+    if (gameClear) {
+        return Status.gameClear
+    }
+    if (gameLimit) {
+        return Status.gameLimit
+    }
+    return Status.playing
 }

@@ -3,38 +3,43 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
+import type {PlaySettings ,HitBlowResult, ButtonLabelMode } from '../common/function/type.ts'
 import './play.css'
-
-type PlaySettings = {
-  maxDigits?: number
-  useButton?: number
-  ruleDuplication?: boolean
-}
 
 function AppPlayGame() {
   const navigate = useNavigate()
   const [text, setText] = useState('')
   const [answer, setAnswer] = useState('')
-  const [hitBlowHistory, setHitBlowHistory] = useState<PlayGame.HitBlowResult[]>([])
+  const [hitBlowHistory, setHitBlowHistory] = useState<HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
-  // const [ruleDuplication] = useState(false);
-  // const [maxDigits] = useState(4)
-  // const [useButton] = useState(10)
+  const [gameLimit, setGameLimit] = useState(false)
+  const status = PlayGame.StatusType(gameClear, gameLimit)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
 
   const maxDigits = settings.maxDigits ?? 4
   const useButton = settings.useButton ?? 10
   const ruleDuplication = settings.ruleDuplication ?? false
+  const buttonLabelMode = (settings.buttonLabelMode ?? 'number') as ButtonLabelMode
+  const answerLimit = settings.answerLimit ?? 0
 
-  const numberButtons = Array.from({ length: useButton }, (_, i) => ({
-    value: String(i),
-    label: String(i),
-  }))
+  const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
 
+  const buttonLabelMap = Object.fromEntries(
+    numberButtons.map((btn) => [btn.value, btn.label])
+  ) 
+
+  const formatGuessLabel = (guess: string) => {
+    const separator = buttonLabelMode === 'roma' ? ' ' : ''
+
+    return guess
+      .split('')
+      .map((digit) => buttonLabelMap[digit] ?? digit)
+      .join(separator)
+  }
 
   const onAnswer = useCallback(() => {
-    if (gameClear || text.length < maxDigits) return
+    if (status !== PlayGame.Status.playing || text.length < maxDigits) return
 
     const currentAnswer = answer === '' ? PlayGame.answerSet('' ,maxDigits ,useButton, ruleDuplication) : answer
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
@@ -58,6 +63,11 @@ function AppPlayGame() {
     //回答判定(Hit=桁数であればクリア)
     setGameClear(PlayGame.clearCheck(result.hit, maxDigits))
 
+    //回答制限チェック
+    if (answerLimit > 0 && hitBlowHistory.length + 1 >= answerLimit) {
+      setGameLimit(true)
+    }
+
     //表示を初期化
     setText('')
 
@@ -66,7 +76,7 @@ function AppPlayGame() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (gameClear) return
+      if (status !== PlayGame.Status.playing) return
 
       if (event.key >= '0' && event.key <= '9') {
         setText((prev) => PlayGame.addDigit(prev, Number(event.key), maxDigits ,useButton))
@@ -99,6 +109,7 @@ function AppPlayGame() {
 
     //回答を初期化
     setGameClear(false)
+    setGameLimit(false)
     setAnswer('')
 
     //履歴を初期化
@@ -110,11 +121,30 @@ function AppPlayGame() {
     <>
       <main className="play-layout">
         <section className="left-panel">
-          {/* 数字タイトル */}
-          <h2 className="panel-title">{texts.game.titleLeftPanel}</h2>
+          <div className="panel-header">
+            
+            {/* 数字タイトル */}
+            <h2 className="panel-title">{texts.game.titleLeftPanel}</h2>
+
+            {/* 回答制限 */}
+            {answerLimit > 0 && (
+              <p className="answer-limit">
+                {CommonFunction.format(
+                  texts.game.answerLimitText,
+                  answerLimit,
+                  answerLimit - hitBlowHistory.length
+                )}
+              </p>
+            )}
+          </div>
 
           {/* 数字入力部 */}
-          <input type="text" value={text} readOnly className="guess-input" />
+          <input
+            type="text"
+            value={formatGuessLabel(text)}
+            readOnly
+            className="guess-input"
+          />
 
           {/* 数字ボタン */}
           <div className="number-grid">
@@ -126,7 +156,7 @@ function AppPlayGame() {
                     PlayGame.addDigit(prev, Number(btn.value), maxDigits, useButton)
                   )
                 }
-                disabled={gameClear}
+                disabled={status !== PlayGame.Status.playing || text.length >= maxDigits}
               >
                 {btn.label}
               </button>
@@ -136,22 +166,21 @@ function AppPlayGame() {
           
           <div className="control-row">
             {/* クリア */}
-            <button className="control-btn" onClick={() => setText('')} disabled={gameClear}>
+            <button className="control-btn" onClick={() => setText('')} disabled={status !== PlayGame.Status.playing || text.length === 0}>
               {texts.game.clear}
             </button>
 
             {/* １文字クリア */}
-            <button  className="control-btn" onClick={() => setText((prev) => PlayGame.removeLast(prev))} disabled={gameClear}>
+            <button  className="control-btn" onClick={() => setText((prev) => PlayGame.removeLast(prev))} disabled={status !== PlayGame.Status.playing || text.length === 0}>
               {texts.game.delete}
             </button>
           </div>
 
           {/* 回答 */}
-          <button onClick={onAnswer} disabled={gameClear || text.length < maxDigits} className="answer-btn">
+          <button onClick={onAnswer} disabled={status !== PlayGame.Status.playing || text.length < maxDigits} className="answer-btn">
             {texts.game.answer}
           </button>
 
-          
           <div  className="control-row">
             {/* メニューに戻る */}
             <button className="control-btn reset-btn" 
@@ -161,6 +190,8 @@ function AppPlayGame() {
                     maxDigits,
                     useButton,
                     ruleDuplication,
+                    buttonLabelMode,
+                    answerLimit,
                   },
                 })
               }
@@ -172,6 +203,7 @@ function AppPlayGame() {
           </div>
         </section>
 
+        {/* 履歴 */}
         <aside className="right-panel">
           <h2 className="panel-title">{texts.game.titleRightPanel}</h2>
           <div className="history-list">
@@ -183,17 +215,22 @@ function AppPlayGame() {
                   {CommonFunction.format(
                     texts.game.historyMap,
                     item.turn,
-                    item.guess,
+                    formatGuessLabel(item.guess),
                     item.hit,
                     item.blow
                   )}
-                  {gameClear && index === 0 ? texts.game.clearSentence : ''}
+                  {status === PlayGame.Status.gameClear && index === 0 ? texts.game.clearSentence : ''}
+                  {status === PlayGame.Status.gameLimit && index === 0 ?
+                    CommonFunction.format(
+                      texts.game.limitSentence
+                      ,formatGuessLabel(answer)) 
+                    : ''
+                  }
                 </div>
               ))}
           </div>
         </aside>
       </main>
-      
     </>
   )
 }
