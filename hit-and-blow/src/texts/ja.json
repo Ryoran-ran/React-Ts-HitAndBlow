@@ -7,12 +7,27 @@
   ,"menu":{
     "menuTitle":"ゲーム設定"
     ,"menuExplain":"プレイ前にルールを設定できます。"
+    ,"difficulty":"難易度"
     ,"digits":"回答桁数"
     ,"useButton":"ボタン数"
     ,"ruleDuplication":"重複あり"
     ,"gameStart":"ゲームスタート"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
+    ,"difficultyOptions": {
+      "custom": "カスタム",
+      "easy": "桃",
+      "normal": "緑",
+      "hard": "蒼",
+      "expert": "茈"
+    }
+    ,"difficultyDescriptions": {
+      "custom": "自由に設定を調整できます。",
+      "easy": "3桁 / 6ボタン / 重複なし",
+      "normal": "4桁 / 8ボタン / 重複なし",
+      "hard": "4桁 / 10ボタン / 重複なし / 10回制限",
+      "expert": "5桁 / 10ボタン / 重複あり / 12回制限"
+    }
     ,"buttonLabelModeOptions": {
       "number": "数字",
       "kanji": "漢字",
