@@ -7,22 +7,15 @@ import type {
 const STORAGE_KEY = 'hitandblow_achievements'
 
 export const achievements: AchievementDefinition[] = [
-  { id: 'first_clear', name: 'はじめの一歩', description: '初めてクリア' },
-  { id: 'clear_limit_10',
-    name: '痛みこそ強くなる',
-    description: '回答回数制限10回以下でクリア',
-  },
-  { id: 'clear_peach', name: '桃クリア', description: '難易度: 桃でクリア' },
-  { id: 'clear_green', name: '緑クリア', description: '難易度: 緑でクリア' },
-  { id: 'clear_blue', name: '蒼クリア', description: '難易度: 蒼でクリア' },
-  { id: 'clear_purple', name: '茈クリア', description: '難易度: 茈でクリア' },
-  { id: 'first_try', name: '運が良い', description: '1回目の回答で正解' },
-  { id: 'clear_duplicate', name: '見破る力', description: '重複ありでクリア' },
-  {
-    id: 'clear_non_number',
-    name: '数字以外でも大丈夫',
-    description: '数字以外のボタン表示でクリア',
-  },
+  { id: 'first_clear' },
+  { id: 'clear_limit_10' },
+  { id: 'clear_peach' },
+  { id: 'clear_green' },
+  { id: 'clear_blue' },
+  { id: 'clear_purple' },
+  { id: 'first_try' },
+  { id: 'clear_duplicate' },
+  { id: 'clear_non_number' },
 ]
 
 export function judgeAchievements(result: PlayResult): AchievementId[] {

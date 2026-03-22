@@ -44,8 +44,6 @@ export type AchievementId =
 
 export type AchievementDefinition = {
   id: AchievementId
-  name: string
-  description: string
   secret?: boolean
 }
 
