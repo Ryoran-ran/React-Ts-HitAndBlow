@@ -3,7 +3,7 @@
   grid-template-columns: minmax(340px, 1fr) minmax(360px, 1.2fr);
   gap: 18px;
   padding: 18px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .left-panel,
@@ -118,10 +118,9 @@
 }
 
 .right-panel {
-  height: 50vh;
-  max-height: 50vh;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .history-list {
@@ -181,11 +180,7 @@
 @media (max-width: 900px) {
   .play-layout {
     grid-template-columns: 1fr;
-  }
-
-  .right-panel {
-    height: 34vh;
-    max-height: 34vh;
+    align-items: start;
   }
 
   .current-stats-grid {
