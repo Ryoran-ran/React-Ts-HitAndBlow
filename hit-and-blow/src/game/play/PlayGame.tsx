@@ -11,6 +11,7 @@ import type {
   PlaySettings,
 } from '../common/function/type.ts'
 import { unlockAchievements } from '../common/function/achievement.ts'
+import { recordStatistics } from '../common/function/statistics.ts'
 import './play.css'
 
 function AppPlayGame() {
@@ -66,6 +67,7 @@ function AppPlayGame() {
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
     const nextAnswerCount = hitBlowHistory.length + 1
     const clearedNow = PlayGame.clearCheck(result.hit, maxDigits)
+    const limitReachedNow = answerLimit > 0 && nextAnswerCount >= answerLimit && !clearedNow
 
     //回答作成(初回のみ)
     if (answer === '') {
@@ -89,6 +91,20 @@ function AppPlayGame() {
     //回答制限チェック
     if (answerLimit > 0 && nextAnswerCount >= answerLimit) {
       setGameLimit(true)
+    }
+
+    if (clearedNow || limitReachedNow) {
+      const playResult: PlayResult = {
+        cleared: clearedNow,
+        difficultyPreset,
+        answerCount: nextAnswerCount,
+        answerLimit,
+        ruleDuplication,
+        buttonLabelMode,
+        guesses: [...hitBlowHistory.map((item) => item.guess), text],
+      }
+
+      recordStatistics(playResult)
     }
 
     if (clearedNow) {

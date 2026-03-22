@@ -56,3 +56,22 @@ export type PlayResult = {
   buttonLabelMode: ButtonLabelMode
   guesses: string[]
 }
+
+export type StatisticsPresetId = Exclude<DifficultyPresetId, 'custom'>
+
+export type StatisticsDetail = {
+  plays: number
+  clears: number
+  fails: number
+  bestClearTurns: number | null
+}
+
+export type StatisticsData = {
+  totalPlays: number
+  totalClears: number
+  totalFails: number
+  customPlays: number
+  customClears: number
+  customFails: number
+  presets: Record<StatisticsPresetId, StatisticsDetail>
+}

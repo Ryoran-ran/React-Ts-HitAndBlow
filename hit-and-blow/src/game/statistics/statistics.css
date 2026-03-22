@@ -1,0 +1,86 @@
+.statistics-layout {
+  display: flex;
+  justify-content: center;
+  padding: 28px 16px;
+}
+
+.statistics-card {
+  width: min(720px, 100%);
+  background: linear-gradient(180deg, #f4f6f8 0%, #e5eaef 100%);
+  border: 1px solid #bac4cf;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.12);
+  padding: 24px;
+}
+
+.statistics-title {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #111827;
+}
+
+.statistics-subtitle {
+  margin: 8px 0 20px;
+  color: #4b5563;
+}
+
+.statistics-grid,
+.statistics-preset-list {
+  display: grid;
+  gap: 12px;
+}
+
+.statistics-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.statistics-panel {
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #cdd6de;
+  background: #f8fafc;
+}
+
+.statistics-panel-title {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: 1.05rem;
+}
+
+.statistics-list {
+  display: grid;
+  gap: 6px;
+  color: #334155;
+}
+
+.statistics-list p {
+  margin: 0;
+}
+
+.statistics-back-btn {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 10px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.statistics-back-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 640px) {
+  .statistics-card {
+    padding: 20px;
+  }
+
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
