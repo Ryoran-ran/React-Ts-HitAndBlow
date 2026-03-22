@@ -4,10 +4,10 @@ import texts from '../../texts/ja.json'
 import './menu.css'
 import * as MenuGame from './function/Menu'
 import type {
-  PlaySettings,
   ButtonLabelMode,
   DifficultyPreset,
   DifficultyPresetId,
+  PlaySettings,
 } from '../common/function/type.ts'
 
 const difficultyPresets: DifficultyPreset[] = [
@@ -48,12 +48,13 @@ export default function AppMenuGame() {
     settings.buttonLabelMode ?? 'number'
   )
   const [difficultyPreset, setDifficultyPreset] = useState<DifficultyPresetId>(
-    findPresetId({
-      maxDigits: settings.maxDigits ?? 4,
-      useButton: settings.useButton ?? 10,
-      answerLimit: settings.answerLimit ?? 0,
-      ruleDuplication: settings.ruleDuplication ?? false,
-    })
+    settings.difficultyPreset ??
+      findPresetId({
+        maxDigits: settings.maxDigits ?? 4,
+        useButton: settings.useButton ?? 10,
+        answerLimit: settings.answerLimit ?? 0,
+        ruleDuplication: settings.ruleDuplication ?? false,
+      })
   )
 
   const syncPreset = (
@@ -264,6 +265,7 @@ export default function AppMenuGame() {
                 ruleDuplication,
                 buttonLabelMode,
                 answerLimit,
+                difficultyPreset,
               },
             })
           }

@@ -16,6 +16,7 @@ export type PlaySettings = {
   ruleDuplication?: boolean
   buttonLabelMode?: ButtonLabelMode
   answerLimit?: number
+  difficultyPreset?: DifficultyPresetId
 }
 
 export type JudgeResult = {
@@ -28,4 +29,32 @@ export type HitBlowResult = {
     guess: string
     hit: number
     blow: number
+}
+
+export type AchievementId =
+  | 'first_clear'
+  | 'clear_peach'
+  | 'clear_green'
+  | 'clear_blue'
+  | 'clear_purple'
+  | 'clear_limit_10'
+  | 'clear_duplicate'
+  | 'clear_non_number'
+  | 'first_try'
+
+export type AchievementDefinition = {
+  id: AchievementId
+  name: string
+  description: string
+  secret?: boolean
+}
+
+export type PlayResult = {
+  cleared: boolean
+  difficultyPreset: DifficultyPresetId
+  answerCount: number
+  answerLimit: number
+  ruleDuplication: boolean
+  buttonLabelMode: ButtonLabelMode
+  guesses: string[]
 }

@@ -3,7 +3,13 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
-import type {PlaySettings ,HitBlowResult, ButtonLabelMode } from '../common/function/type.ts'
+import type {
+  ButtonLabelMode,
+  HitBlowResult,
+  PlayResult,
+  PlaySettings,
+} from '../common/function/type.ts'
+import { unlockAchievements } from '../common/function/achievement.ts'
 import './play.css'
 
 function AppPlayGame() {
@@ -22,6 +28,7 @@ function AppPlayGame() {
   const ruleDuplication = settings.ruleDuplication ?? false
   const buttonLabelMode = (settings.buttonLabelMode ?? 'number') as ButtonLabelMode
   const answerLimit = settings.answerLimit ?? 0
+  const difficultyPreset = settings.difficultyPreset ?? 'custom'
 
   const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
 
@@ -43,6 +50,8 @@ function AppPlayGame() {
 
     const currentAnswer = answer === '' ? PlayGame.answerSet('' ,maxDigits ,useButton, ruleDuplication) : answer
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
+    const nextAnswerCount = hitBlowHistory.length + 1
+    const clearedNow = PlayGame.clearCheck(result.hit, maxDigits)
 
     //回答作成(初回のみ)
     if (answer === '') {
@@ -61,19 +70,33 @@ function AppPlayGame() {
     ])
 
     //回答判定(Hit=桁数であればクリア)
-    setGameClear(PlayGame.clearCheck(result.hit, maxDigits))
+    setGameClear(clearedNow)
 
     //回答制限チェック
-    if (answerLimit > 0 && hitBlowHistory.length + 1 >= answerLimit) {
+    if (answerLimit > 0 && nextAnswerCount >= answerLimit) {
       setGameLimit(true)
+    }
+
+    if (clearedNow) {
+      const playResult: PlayResult = {
+        cleared: true,
+        difficultyPreset,
+        answerCount: nextAnswerCount,
+        answerLimit,
+        ruleDuplication,
+        buttonLabelMode,
+        guesses: [...hitBlowHistory.map((item) => item.guess), text],
+      }
+
+      const newUnlocked = unlockAchievements(playResult)
+      console.log(newUnlocked)
     }
 
     //表示を初期化
     setText('')
 
     
-  }, [answer, gameClear, maxDigits, text])
-
+  },  [answer, answerLimit, buttonLabelMode, difficultyPreset, hitBlowHistory, maxDigits, ruleDuplication, status, text, useButton])
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (status !== PlayGame.Status.playing) return
@@ -192,6 +215,7 @@ function AppPlayGame() {
                     ruleDuplication,
                     buttonLabelMode,
                     answerLimit,
+                    difficultyPreset,
                   },
                 })
               }
