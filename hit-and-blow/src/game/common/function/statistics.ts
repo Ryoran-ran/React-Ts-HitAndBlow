@@ -14,6 +14,7 @@ function createStatisticsDetail(): StatisticsDetail {
     clears: 0,
     fails: 0,
     bestClearTurns: null,
+    totalClearTurns: 0,
   }
 }
 
@@ -22,9 +23,7 @@ export function createInitialStatistics(): StatisticsData {
     totalPlays: 0,
     totalClears: 0,
     totalFails: 0,
-    customPlays: 0,
-    customClears: 0,
-    customFails: 0,
+    custom: createStatisticsDetail(),
     presets: {
       easy: createStatisticsDetail(),
       normal: createStatisticsDetail(),
@@ -34,13 +33,48 @@ export function createInitialStatistics(): StatisticsData {
   }
 }
 
+function normalizeStatisticsDetail(detail: Partial<StatisticsDetail> | undefined): StatisticsDetail {
+  return {
+    plays: detail?.plays ?? 0,
+    clears: detail?.clears ?? 0,
+    fails: detail?.fails ?? 0,
+    bestClearTurns: detail?.bestClearTurns ?? null,
+    totalClearTurns: detail?.totalClearTurns ?? 0,
+  }
+}
+
 export function loadStatistics(): StatisticsData {
   const raw = localStorage.getItem(STORAGE_KEY)
   if (!raw) {
     return createInitialStatistics()
   }
 
-  return JSON.parse(raw) as StatisticsData
+  const parsed = JSON.parse(raw) as Partial<StatisticsData> & {
+    customPlays?: number
+    customClears?: number
+    customFails?: number
+  }
+
+  return {
+    totalPlays: parsed.totalPlays ?? 0,
+    totalClears: parsed.totalClears ?? 0,
+    totalFails: parsed.totalFails ?? 0,
+    custom: parsed.custom
+      ? normalizeStatisticsDetail(parsed.custom)
+      : {
+          plays: parsed.customPlays ?? 0,
+          clears: parsed.customClears ?? 0,
+          fails: parsed.customFails ?? 0,
+          bestClearTurns: null,
+          totalClearTurns: 0,
+        },
+    presets: {
+      easy: normalizeStatisticsDetail(parsed.presets?.easy),
+      normal: normalizeStatisticsDetail(parsed.presets?.normal),
+      hard: normalizeStatisticsDetail(parsed.presets?.hard),
+      expert: normalizeStatisticsDetail(parsed.presets?.expert),
+    },
+  }
 }
 
 export function saveStatistics(statistics: StatisticsData) {
@@ -57,6 +91,7 @@ function updatePresetStatistics(
 
   if (result.cleared) {
     preset.clears += 1
+    preset.totalClearTurns += result.answerCount
     if (preset.bestClearTurns === null || result.answerCount < preset.bestClearTurns) {
       preset.bestClearTurns = result.answerCount
     }
@@ -77,11 +112,18 @@ export function recordStatistics(result: PlayResult): StatisticsData {
   }
 
   if (result.difficultyPreset === 'custom') {
-    statistics.customPlays += 1
+    statistics.custom.plays += 1
     if (result.cleared) {
-      statistics.customClears += 1
+      statistics.custom.clears += 1
+      statistics.custom.totalClearTurns += result.answerCount
+      if (
+        statistics.custom.bestClearTurns === null ||
+        result.answerCount < statistics.custom.bestClearTurns
+      ) {
+        statistics.custom.bestClearTurns = result.answerCount
+      }
     } else {
-      statistics.customFails += 1
+      statistics.custom.fails += 1
     }
   } else {
     updatePresetStatistics(statistics, result.difficultyPreset, result)
@@ -91,8 +133,17 @@ export function recordStatistics(result: PlayResult): StatisticsData {
   return statistics
 }
 
-export function isPresetStatisticsId(
+export function getStatisticsDetail(
+  statistics: StatisticsData,
   presetId: DifficultyPresetId
-): presetId is StatisticsPresetId {
-  return presetId !== 'custom'
+): StatisticsDetail {
+  return presetId === 'custom' ? statistics.custom : statistics.presets[presetId]
+}
+
+export function calculateAverageTurns(detail: StatisticsDetail): number | null {
+  if (detail.clears === 0) {
+    return null
+  }
+
+  return Math.round((detail.totalClearTurns / detail.clears) * 10) / 10
 }

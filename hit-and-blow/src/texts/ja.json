@@ -111,10 +111,16 @@
     ,"clearSentence":"正解！！"
     ,"titleLeftPanel":"数字"
     ,"titleRightPanel":"履歴"
+    ,"titleCurrentStats":"今回の統計"
     ,"backMenu":"メニューに戻る"
     ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
     ,"limitSentence":"回数制限(答え:{0})"
     ,"achievementUnlocked":"実績達成"
+    ,"averageTurns":"平均手数"
+    ,"bestClearTurns":"最短手数"
+    ,"totalClears":"クリア回数"
+    ,"totalFails":"失敗回数"
+    ,"noRecord":"記録なし"
   }
 
   ,"achievementScreen": {
@@ -139,6 +145,7 @@
     ,"totalClears": "クリア回数"
     ,"totalFails": "失敗回数"
     ,"bestClearTurns": "最短手数"
+    ,"averageTurns": "平均手数"
     ,"none": "-"
   }
 

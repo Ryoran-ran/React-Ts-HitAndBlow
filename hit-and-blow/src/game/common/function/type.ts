@@ -64,14 +64,13 @@ export type StatisticsDetail = {
   clears: number
   fails: number
   bestClearTurns: number | null
+  totalClearTurns: number
 }
 
 export type StatisticsData = {
   totalPlays: number
   totalClears: number
   totalFails: number
-  customPlays: number
-  customClears: number
-  customFails: number
+  custom: StatisticsDetail
   presets: Record<StatisticsPresetId, StatisticsDetail>
 }

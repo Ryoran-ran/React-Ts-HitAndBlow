@@ -1,8 +1,8 @@
 .play-layout {
   display: grid;
   grid-template-columns: minmax(340px, 1fr) minmax(360px, 1.2fr);
-  gap: 24px;
-  padding: 24px;
+  gap: 18px;
+  padding: 18px;
   align-items: start;
 }
 
@@ -11,13 +11,13 @@
   background: #d8d8d8;
   border: 1px solid #c5c5c5;
   border-radius: 10px;
-  padding: 20px;
+  padding: 16px;
 }
 
 .left-panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .panel-header {
@@ -29,7 +29,7 @@
 
 .panel-title {
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 1.8rem;
   line-height: 1.1;
   font-weight: 700;
   text-align: left;
@@ -44,24 +44,65 @@
 
 .guess-input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid #bdbdbd;
   border-radius: 8px;
   background: #f4f4f4;
   color: #111827;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-align: center;
+}
+
+.current-stats-panel {
+  border: 1px solid #bfc7cf;
+  border-radius: 10px;
+  background: #eceff3;
+  padding: 10px 12px;
+}
+
+.bottom-stats-panel {
+  grid-column: 1 / -1;
+}
+
+.current-stats-title {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.current-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.current-stats-item {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.current-stats-label {
+  color: #475569;
+  font-size: 0.82rem;
+}
+
+.current-stats-value {
+  color: #111827;
+  font-size: 1rem;
 }
 
 .number-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(56px, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .number-grid button {
-  min-height: 48px;
-  font-size: 30px;
+  min-height: 42px;
+  font-size: 26px;
 }
 
 .row {
@@ -72,13 +113,13 @@
 
 .answer-btn {
   width: 100%;
-  min-height: 52px;
-  font-size: 30px;
+  min-height: 46px;
+  font-size: 26px;
 }
 
 .right-panel {
-  height: 70vh;
-  max-height: 70vh;
+  height: 50vh;
+  max-height: 50vh;
   display: flex;
   flex-direction: column;
 }
@@ -86,8 +127,8 @@
 .history-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -95,7 +136,7 @@
 }
 
 .history-item {
-  padding: 8px 10px;
+  padding: 7px 9px;
   background: #efefef;
   border-radius: 6px;
 }
@@ -143,8 +184,12 @@
   }
 
   .right-panel {
-    height: 50vh;
-    max-height: 50vh;
+    height: 34vh;
+    max-height: 34vh;
+  }
+
+  .current-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .achievement-toast-area {
@@ -153,23 +198,29 @@
   }
 }
 
+@media (max-width: 560px) {
+  .current-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .control-btn {
-  min-height: 56px;
-  padding: 12px 20px;
-  font-size: 1.1rem;
+  min-height: 48px;
+  padding: 10px 16px;
+  font-size: 1rem;
   margin-left: 0;
 }
 
 .control-row {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
+  gap: 8px;
 }
 
 .reset-btn {
-  min-height: 56px;
-  padding: 12px 20px;
-  font-size: 1.1rem;
+  min-height: 48px;
+  padding: 10px 16px;
+  font-size: 1rem;
   margin-left: auto;   /* 右寄せ */
 }
 

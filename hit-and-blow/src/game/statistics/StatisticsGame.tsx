@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
-import { loadStatistics } from '../common/function/statistics.ts'
+import { calculateAverageTurns, loadStatistics } from '../common/function/statistics.ts'
 import type { StatisticsPresetId } from '../common/function/type.ts'
 import './statistics.css'
 
@@ -30,9 +30,15 @@ export default function AppStatisticsGame() {
           <article className="statistics-panel">
             <h3 className="statistics-panel-title">{texts.statisticsScreen.customTitle}</h3>
             <div className="statistics-list">
-              <p>{texts.statisticsScreen.totalPlays}: {statistics.customPlays}</p>
-              <p>{texts.statisticsScreen.totalClears}: {statistics.customClears}</p>
-              <p>{texts.statisticsScreen.totalFails}: {statistics.customFails}</p>
+              <p>{texts.statisticsScreen.totalPlays}: {statistics.custom.plays}</p>
+              <p>{texts.statisticsScreen.totalClears}: {statistics.custom.clears}</p>
+              <p>{texts.statisticsScreen.totalFails}: {statistics.custom.fails}</p>
+              <p>
+                {texts.statisticsScreen.bestClearTurns}: {statistics.custom.bestClearTurns ?? texts.statisticsScreen.none}
+              </p>
+              <p>
+                {texts.statisticsScreen.averageTurns}: {calculateAverageTurns(statistics.custom) ?? texts.statisticsScreen.none}
+              </p>
             </div>
           </article>
         </div>
@@ -52,6 +58,9 @@ export default function AppStatisticsGame() {
                   <p>{texts.statisticsScreen.totalFails}: {preset.fails}</p>
                   <p>
                     {texts.statisticsScreen.bestClearTurns}: {preset.bestClearTurns ?? texts.statisticsScreen.none}
+                  </p>
+                  <p>
+                    {texts.statisticsScreen.averageTurns}: {calculateAverageTurns(preset) ?? texts.statisticsScreen.none}
                   </p>
                 </div>
               </article>
