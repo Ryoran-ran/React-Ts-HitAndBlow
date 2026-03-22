@@ -1,9 +1,18 @@
+.play-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .play-layout {
   display: grid;
   grid-template-columns: minmax(340px, 1fr) minmax(360px, 1.2fr);
   gap: 18px;
   padding: 18px;
-  align-items: stretch;
+  align-items: start;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .left-panel,
@@ -62,6 +71,7 @@
 
 .bottom-stats-panel {
   grid-column: 1 / -1;
+  min-height: 0;
 }
 
 .current-stats-title {
@@ -118,6 +128,8 @@
 }
 
 .right-panel {
+  height: 50vh;
+  max-height: 50vh;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -181,6 +193,11 @@
   .play-layout {
     grid-template-columns: 1fr;
     align-items: start;
+  }
+
+  .right-panel {
+    height: 34vh;
+    max-height: 34vh;
   }
 
   .current-stats-grid {
