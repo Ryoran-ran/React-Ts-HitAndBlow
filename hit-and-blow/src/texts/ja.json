@@ -113,6 +113,7 @@
     ,"backMenu":"メニューに戻る"
     ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
     ,"limitSentence":"回数制限(答え:{0})"
+    ,"achievementUnlocked":"実績達成"
   }
 
   ,"achievementScreen": {
@@ -121,7 +122,9 @@
     ,"backMenu": "メニューに戻る"
     ,"unlocked": "解除済み"
     ,"locked": "未解除"
+    ,"hideUnlocked": "達成済み実績を非表示"
     ,"empty": "まだ実績を解除していません。"
+    ,"emptyFiltered": "表示できる未解除実績がありません。"
   }
 
   ,"achievements": {

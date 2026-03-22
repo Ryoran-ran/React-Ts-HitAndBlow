@@ -4,6 +4,7 @@ import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
 import type {
+  AchievementId,
   ButtonLabelMode,
   HitBlowResult,
   PlayResult,
@@ -19,6 +20,7 @@ function AppPlayGame() {
   const [hitBlowHistory, setHitBlowHistory] = useState<HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
   const [gameLimit, setGameLimit] = useState(false)
+  const [unlockedToastIds, setUnlockedToastIds] = useState<AchievementId[]>([])
   const status = PlayGame.StatusType(gameClear, gameLimit)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
@@ -44,6 +46,18 @@ function AppPlayGame() {
       .map((digit) => buttonLabelMap[digit] ?? digit)
       .join(separator)
   }
+
+  useEffect(() => {
+    if (unlockedToastIds.length === 0) {
+      return
+    }
+
+    const timerId = window.setTimeout(() => {
+      setUnlockedToastIds([])
+    }, 4000)
+
+    return () => window.clearTimeout(timerId)
+  }, [unlockedToastIds])
 
   const onAnswer = useCallback(() => {
     if (status !== PlayGame.Status.playing || text.length < maxDigits) return
@@ -89,7 +103,7 @@ function AppPlayGame() {
       }
 
       const newUnlocked = unlockAchievements(playResult)
-      console.log(newUnlocked)
+      setUnlockedToastIds(newUnlocked)
     }
 
     //表示を初期化
@@ -134,6 +148,7 @@ function AppPlayGame() {
     setGameClear(false)
     setGameLimit(false)
     setAnswer('')
+    setUnlockedToastIds([])
 
     //履歴を初期化
     setHitBlowHistory([])
@@ -255,6 +270,21 @@ function AppPlayGame() {
           </div>
         </aside>
       </main>
+      {unlockedToastIds.length > 0 && (
+        <div className="achievement-toast-area">
+          {unlockedToastIds.map((achievementId) => (
+            <article key={achievementId} className="achievement-toast">
+              <p className="achievement-toast-label">{texts.game.achievementUnlocked}</p>
+              <h3 className="achievement-toast-title">
+                {texts.achievements[achievementId].name}
+              </h3>
+              <p className="achievement-toast-description">
+                {texts.achievements[achievementId].description}
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
     </>
   )
 }

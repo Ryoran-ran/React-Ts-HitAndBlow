@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import { achievements, loadUnlockedAchievements } from '../common/function/achievement.ts'
@@ -6,9 +6,13 @@ import './achievement.css'
 
 export default function AppAchievementGame() {
   const navigate = useNavigate()
+  const [hideUnlocked, setHideUnlocked] = useState(false)
 
   const unlockedIds = useMemo(() => loadUnlockedAchievements(), [])
   const unlockedSet = new Set(unlockedIds)
+  const visibleAchievements = achievements.filter(
+    (achievement) => !hideUnlocked || !unlockedSet.has(achievement.id)
+  )
 
   return (
     <main className="achievement-layout">
@@ -16,8 +20,18 @@ export default function AppAchievementGame() {
         <h2 className="achievement-title">{texts.achievementScreen.title}</h2>
         <p className="achievement-subtitle">{texts.achievementScreen.subtitle}</p>
 
+        <label className="achievement-filter" htmlFor="hide-unlocked">
+          <input
+            id="hide-unlocked"
+            type="checkbox"
+            checked={hideUnlocked}
+            onChange={(e) => setHideUnlocked(e.target.checked)}
+          />
+          {texts.achievementScreen.hideUnlocked}
+        </label>
+
         <div className="achievement-list">
-          {achievements.map((achievement) => {
+          {visibleAchievements.map((achievement) => {
             const unlocked = unlockedSet.has(achievement.id)
             const achievementText = texts.achievements[achievement.id]
 
@@ -41,8 +55,12 @@ export default function AppAchievementGame() {
             )
           })}
 
-          {unlockedIds.length === 0 && (
-            <p className="achievement-empty">{texts.achievementScreen.empty}</p>
+          {visibleAchievements.length === 0 && (
+            <p className="achievement-empty">
+              {hideUnlocked
+                ? texts.achievementScreen.emptyFiltered
+                : texts.achievementScreen.empty}
+            </p>
           )}
         </div>
 

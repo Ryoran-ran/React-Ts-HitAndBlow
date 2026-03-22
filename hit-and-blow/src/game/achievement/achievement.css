@@ -29,6 +29,20 @@
   gap: 12px;
 }
 
+.achievement-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.achievement-filter input {
+  width: 18px;
+  height: 18px;
+}
+
 .achievement-item {
   border-radius: 12px;
   padding: 14px 16px;
