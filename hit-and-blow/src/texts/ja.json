@@ -12,6 +12,7 @@
     ,"useButton":"ボタン数"
     ,"ruleDuplication":"重複あり"
     ,"gameStart":"ゲームスタート"
+    ,"showAchievements":"実績を見る"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
     ,"difficultyOptions": {
@@ -112,6 +113,57 @@
     ,"backMenu":"メニューに戻る"
     ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
     ,"limitSentence":"回数制限(答え:{0})"
+    ,"achievementUnlocked":"実績達成"
+  }
+
+  ,"achievementScreen": {
+    "title": "実績一覧"
+    ,"subtitle": "解除した実績を確認できます。"
+    ,"backMenu": "メニューに戻る"
+    ,"unlocked": "解除済み"
+    ,"locked": "未解除"
+    ,"hideUnlocked": "達成済み実績を非表示"
+    ,"empty": "まだ実績を解除していません。"
+    ,"emptyFiltered": "表示できる未解除実績がありません。"
+  }
+
+  ,"achievements": {
+    "first_clear": {
+      "name": "はじめの一歩",
+      "description": "初めてクリア"
+    },
+    "clear_limit_10": {
+      "name": "痛みこそ強くなる",
+      "description": "回答回数制限10回以下でクリア"
+    },
+    "clear_peach": {
+      "name": "桃クリア",
+      "description": "難易度: 桃でクリア"
+    },
+    "clear_green": {
+      "name": "緑クリア",
+      "description": "難易度: 緑でクリア"
+    },
+    "clear_blue": {
+      "name": "蒼クリア",
+      "description": "難易度: 蒼でクリア"
+    },
+    "clear_purple": {
+      "name": "茈クリア",
+      "description": "難易度: 茈でクリア"
+    },
+    "first_try": {
+      "name": "運が良い",
+      "description": "1回目の回答で正解"
+    },
+    "clear_duplicate": {
+      "name": "見破る力",
+      "description": "重複ありでクリア"
+    },
+    "clear_non_number": {
+      "name": "数字以外でも大丈夫",
+      "description": "数字以外のボタン表示でクリア"
+    }
   }
 
   ,"errors":{

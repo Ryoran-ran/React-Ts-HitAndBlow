@@ -3,7 +3,14 @@ import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
 import * as CommonFunction from '../common/function/common.ts'
-import type {PlaySettings ,HitBlowResult, ButtonLabelMode } from '../common/function/type.ts'
+import type {
+  AchievementId,
+  ButtonLabelMode,
+  HitBlowResult,
+  PlayResult,
+  PlaySettings,
+} from '../common/function/type.ts'
+import { unlockAchievements } from '../common/function/achievement.ts'
 import './play.css'
 
 function AppPlayGame() {
@@ -13,6 +20,7 @@ function AppPlayGame() {
   const [hitBlowHistory, setHitBlowHistory] = useState<HitBlowResult[]>([])
   const [gameClear, setGameClear] = useState(false)
   const [gameLimit, setGameLimit] = useState(false)
+  const [unlockedToastIds, setUnlockedToastIds] = useState<AchievementId[]>([])
   const status = PlayGame.StatusType(gameClear, gameLimit)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
@@ -22,6 +30,7 @@ function AppPlayGame() {
   const ruleDuplication = settings.ruleDuplication ?? false
   const buttonLabelMode = (settings.buttonLabelMode ?? 'number') as ButtonLabelMode
   const answerLimit = settings.answerLimit ?? 0
+  const difficultyPreset = settings.difficultyPreset ?? 'custom'
 
   const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
 
@@ -38,11 +47,25 @@ function AppPlayGame() {
       .join(separator)
   }
 
+  useEffect(() => {
+    if (unlockedToastIds.length === 0) {
+      return
+    }
+
+    const timerId = window.setTimeout(() => {
+      setUnlockedToastIds([])
+    }, 4000)
+
+    return () => window.clearTimeout(timerId)
+  }, [unlockedToastIds])
+
   const onAnswer = useCallback(() => {
     if (status !== PlayGame.Status.playing || text.length < maxDigits) return
 
     const currentAnswer = answer === '' ? PlayGame.answerSet('' ,maxDigits ,useButton, ruleDuplication) : answer
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
+    const nextAnswerCount = hitBlowHistory.length + 1
+    const clearedNow = PlayGame.clearCheck(result.hit, maxDigits)
 
     //回答作成(初回のみ)
     if (answer === '') {
@@ -61,19 +84,33 @@ function AppPlayGame() {
     ])
 
     //回答判定(Hit=桁数であればクリア)
-    setGameClear(PlayGame.clearCheck(result.hit, maxDigits))
+    setGameClear(clearedNow)
 
     //回答制限チェック
-    if (answerLimit > 0 && hitBlowHistory.length + 1 >= answerLimit) {
+    if (answerLimit > 0 && nextAnswerCount >= answerLimit) {
       setGameLimit(true)
+    }
+
+    if (clearedNow) {
+      const playResult: PlayResult = {
+        cleared: true,
+        difficultyPreset,
+        answerCount: nextAnswerCount,
+        answerLimit,
+        ruleDuplication,
+        buttonLabelMode,
+        guesses: [...hitBlowHistory.map((item) => item.guess), text],
+      }
+
+      const newUnlocked = unlockAchievements(playResult)
+      setUnlockedToastIds(newUnlocked)
     }
 
     //表示を初期化
     setText('')
 
     
-  }, [answer, gameClear, maxDigits, text])
-
+  },  [answer, answerLimit, buttonLabelMode, difficultyPreset, hitBlowHistory, maxDigits, ruleDuplication, status, text, useButton])
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (status !== PlayGame.Status.playing) return
@@ -111,6 +148,7 @@ function AppPlayGame() {
     setGameClear(false)
     setGameLimit(false)
     setAnswer('')
+    setUnlockedToastIds([])
 
     //履歴を初期化
     setHitBlowHistory([])
@@ -192,6 +230,7 @@ function AppPlayGame() {
                     ruleDuplication,
                     buttonLabelMode,
                     answerLimit,
+                    difficultyPreset,
                   },
                 })
               }
@@ -231,6 +270,21 @@ function AppPlayGame() {
           </div>
         </aside>
       </main>
+      {unlockedToastIds.length > 0 && (
+        <div className="achievement-toast-area">
+          {unlockedToastIds.map((achievementId) => (
+            <article key={achievementId} className="achievement-toast">
+              <p className="achievement-toast-label">{texts.game.achievementUnlocked}</p>
+              <h3 className="achievement-toast-title">
+                {texts.achievements[achievementId].name}
+              </h3>
+              <p className="achievement-toast-description">
+                {texts.achievements[achievementId].description}
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
     </>
   )
 }
