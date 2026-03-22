@@ -12,6 +12,7 @@
     ,"useButton":"ボタン数"
     ,"ruleDuplication":"重複あり"
     ,"gameStart":"ゲームスタート"
+    ,"showAchievements":"実績を見る"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
     ,"difficultyOptions": {
@@ -112,6 +113,15 @@
     ,"backMenu":"メニューに戻る"
     ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
     ,"limitSentence":"回数制限(答え:{0})"
+  }
+
+  ,"achievementScreen": {
+    "title": "実績一覧"
+    ,"subtitle": "解除した実績を確認できます。"
+    ,"backMenu": "メニューに戻る"
+    ,"unlocked": "解除済み"
+    ,"locked": "未解除"
+    ,"empty": "まだ実績を解除していません。"
   }
 
   ,"achievements": {
