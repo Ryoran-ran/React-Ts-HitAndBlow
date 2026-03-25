@@ -10,6 +10,22 @@
   text-align: left;
 }
 
+.app-header--difficulty-easy {
+  border-right: 10px solid #f09199;
+}
+
+.app-header--difficulty-normal {
+  border-right: 10px solid #22c55e;
+}
+
+.app-header--difficulty-hard {
+  border-right: 10px solid #3b82f6;
+}
+
+.app-header--difficulty-expert {
+  border-right: 10px solid #a855f7;
+}
+
 .app-header__main {
   min-width: 0;
 }

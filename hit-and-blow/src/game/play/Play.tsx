@@ -35,7 +35,7 @@ function AppPlay() {
   return (
     <main className="play-screen">
         {/* ヘッダー部 */}
-        <AppHeader settings={headerSettings} />
+        <AppHeader settings={headerSettings} difficultyPreset={difficultyPreset} />
 
         {/* ゲーム部 */}
         <AppPlayGame />

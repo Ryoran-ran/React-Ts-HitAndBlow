@@ -1,5 +1,6 @@
 import './header.css'
 import texts from '../../../texts/ja.json'
+import type { DifficultyPresetId } from '../function/type.ts'
 
 type HeaderItem = {
   label: string
@@ -8,12 +9,17 @@ type HeaderItem = {
 
 type AppHeaderProps = {
   settings?: HeaderItem[]
+  difficultyPreset?: DifficultyPresetId
 }
 
-function AppHeader({ settings = [] }: AppHeaderProps) {
+function AppHeader({ settings = [], difficultyPreset }: AppHeaderProps) {
+  const difficultyClass =
+    difficultyPreset && difficultyPreset !== 'custom'
+      ? `app-header--difficulty-${difficultyPreset}`
+      : ''
 
   return (
-    <header className="app-header">
+    <header className={`app-header ${difficultyClass}`.trim()}>
       <div className="app-header__main">
         <h1 className="app-header__title">{texts.header.title}</h1>
         <p className="app-header__subtitle">{texts.header.subtitle}</p>
