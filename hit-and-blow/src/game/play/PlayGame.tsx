@@ -41,7 +41,10 @@ function AppPlayGame() {
   const difficultyPreset = settings.difficultyPreset ?? 'custom'
   const showCurrentStats = settings.showCurrentStats ?? true
 
-  const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
+  const numberButtons = PlayGame.getAvailableDigitValues(useButton).flatMap((value) => {
+    const button = texts.game.numberButtons[buttonLabelMode].find((item) => item.value === value)
+    return button ? [button] : []
+  })
 
   const buttonLabelMap = Object.fromEntries(
     numberButtons.map((btn) => [btn.value, btn.label])
