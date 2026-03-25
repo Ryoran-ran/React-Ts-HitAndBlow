@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
@@ -39,12 +39,27 @@ export default function AppMenuGame() {
 
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
+  const localStorageKeyShowCurrentStats = 'hit-and-blow.showCurrentStats'
 
   const [ruleDuplication, setRuleDuplication] = useState(settings.ruleDuplication ?? false)
   const [maxDigits, setMaxDigits] = useState(settings.maxDigits ?? 4)
   const [useButton, setUseButton] = useState(settings.useButton ?? 10)
   const [answerLimit, setAnswerLimit] = useState(settings.answerLimit ?? 0)
-  const [showCurrentStats, setShowCurrentStats] = useState(settings.showCurrentStats ?? true)
+  const [showCurrentStats, setShowCurrentStats] = useState(() => {
+    if (typeof settings.showCurrentStats === 'boolean') {
+      return settings.showCurrentStats
+    }
+
+    const savedValue = window.localStorage.getItem(localStorageKeyShowCurrentStats)
+    if (savedValue === 'true') {
+      return true
+    }
+    if (savedValue === 'false') {
+      return false
+    }
+
+    return true
+  })
   const [buttonLabelMode, setButtonLabelMode] = useState<ButtonLabelMode>(
     settings.buttonLabelMode ?? 'number'
   )
@@ -86,6 +101,10 @@ export default function AppMenuGame() {
     setAnswerLimit(preset.answerLimit)
     setRuleDuplication(preset.ruleDuplication)
   }
+
+  useEffect(() => {
+    window.localStorage.setItem(localStorageKeyShowCurrentStats, String(showCurrentStats))
+  }, [localStorageKeyShowCurrentStats, showCurrentStats])
 
   return (
     <main className="menu-layout">
