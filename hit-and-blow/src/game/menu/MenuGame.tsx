@@ -278,6 +278,12 @@ export default function AppMenuGame() {
         >
           {texts.menu.showAchievements}
         </button>
+        <button
+          className="menu-sub-btn"
+          onClick={() => navigate('/statistics')}
+        >
+          {texts.menu.showStatistics}
+        </button>
       </section>
     </main>
   )

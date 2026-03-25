@@ -13,6 +13,7 @@
     ,"ruleDuplication":"重複あり"
     ,"gameStart":"ゲームスタート"
     ,"showAchievements":"実績を見る"
+    ,"showStatistics":"統計を見る"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
     ,"difficultyOptions": {
@@ -110,10 +111,16 @@
     ,"clearSentence":"正解！！"
     ,"titleLeftPanel":"数字"
     ,"titleRightPanel":"履歴"
+    ,"titleCurrentStats":"今回の統計"
     ,"backMenu":"メニューに戻る"
     ,"answerLimitText":"回答制限: {0} 回(残り {1} 回)"
     ,"limitSentence":"回数制限(答え:{0})"
     ,"achievementUnlocked":"実績達成"
+    ,"averageTurns":"平均手数"
+    ,"bestClearTurns":"最短手数"
+    ,"totalClears":"クリア回数"
+    ,"totalFails":"失敗回数"
+    ,"noRecord":"記録なし"
   }
 
   ,"achievementScreen": {
@@ -125,6 +132,21 @@
     ,"hideUnlocked": "達成済み実績を非表示"
     ,"empty": "まだ実績を解除していません。"
     ,"emptyFiltered": "表示できる未解除実績がありません。"
+  }
+
+  ,"statisticsScreen": {
+    "title": "統計"
+    ,"subtitle": "プレイ状況を確認できます。"
+    ,"backMenu": "メニューに戻る"
+    ,"totalTitle": "全体統計"
+    ,"customTitle": "カスタム統計"
+    ,"presetTitle": "難易度"
+    ,"totalPlays": "プレイ回数"
+    ,"totalClears": "クリア回数"
+    ,"totalFails": "失敗回数"
+    ,"bestClearTurns": "最短手数"
+    ,"averageTurns": "平均手数"
+    ,"none": "-"
   }
 
   ,"achievements": {

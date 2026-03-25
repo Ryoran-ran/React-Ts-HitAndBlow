@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import * as PlayGame from './function/Play'
@@ -8,9 +8,16 @@ import type {
   ButtonLabelMode,
   HitBlowResult,
   PlayResult,
+  StatisticsDetail,
   PlaySettings,
 } from '../common/function/type.ts'
 import { unlockAchievements } from '../common/function/achievement.ts'
+import {
+  calculateAverageTurns,
+  getStatisticsDetail,
+  loadStatistics,
+  recordStatistics,
+} from '../common/function/statistics.ts'
 import './play.css'
 
 function AppPlayGame() {
@@ -21,6 +28,7 @@ function AppPlayGame() {
   const [gameClear, setGameClear] = useState(false)
   const [gameLimit, setGameLimit] = useState(false)
   const [unlockedToastIds, setUnlockedToastIds] = useState<AchievementId[]>([])
+  const [statisticsData, setStatisticsData] = useState(() => loadStatistics())
   const status = PlayGame.StatusType(gameClear, gameLimit)
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
@@ -37,6 +45,11 @@ function AppPlayGame() {
   const buttonLabelMap = Object.fromEntries(
     numberButtons.map((btn) => [btn.value, btn.label])
   ) 
+  const currentStatistics: StatisticsDetail = useMemo(
+    () => getStatisticsDetail(statisticsData, difficultyPreset),
+    [difficultyPreset, statisticsData]
+  )
+  const averageTurns = calculateAverageTurns(currentStatistics)
 
   const formatGuessLabel = (guess: string) => {
     const separator = buttonLabelMode === 'roma' ? ' ' : ''
@@ -66,6 +79,7 @@ function AppPlayGame() {
     const result = PlayGame.checkHitAndBlow(currentAnswer, text)
     const nextAnswerCount = hitBlowHistory.length + 1
     const clearedNow = PlayGame.clearCheck(result.hit, maxDigits)
+    const limitReachedNow = answerLimit > 0 && nextAnswerCount >= answerLimit && !clearedNow
 
     //回答作成(初回のみ)
     if (answer === '') {
@@ -89,6 +103,20 @@ function AppPlayGame() {
     //回答制限チェック
     if (answerLimit > 0 && nextAnswerCount >= answerLimit) {
       setGameLimit(true)
+    }
+
+    if (clearedNow || limitReachedNow) {
+      const playResult: PlayResult = {
+        cleared: clearedNow,
+        difficultyPreset,
+        answerCount: nextAnswerCount,
+        answerLimit,
+        ruleDuplication,
+        buttonLabelMode,
+        guesses: [...hitBlowHistory.map((item) => item.guess), text],
+      }
+
+      setStatisticsData(recordStatistics(playResult))
     }
 
     if (clearedNow) {
@@ -269,6 +297,32 @@ function AppPlayGame() {
               ))}
           </div>
         </aside>
+
+        <section className="current-stats-panel bottom-stats-panel">
+          <h3 className="current-stats-title">{texts.game.titleCurrentStats}</h3>
+          <div className="current-stats-grid">
+            <div className="current-stats-item">
+              <span className="current-stats-label">{texts.game.averageTurns}</span>
+              <strong className="current-stats-value">
+                {averageTurns ?? texts.game.noRecord}
+              </strong>
+            </div>
+            <div className="current-stats-item">
+              <span className="current-stats-label">{texts.game.bestClearTurns}</span>
+              <strong className="current-stats-value">
+                {currentStatistics.bestClearTurns ?? texts.game.noRecord}
+              </strong>
+            </div>
+            <div className="current-stats-item">
+              <span className="current-stats-label">{texts.game.totalClears}</span>
+              <strong className="current-stats-value">{currentStatistics.clears}</strong>
+            </div>
+            <div className="current-stats-item">
+              <span className="current-stats-label">{texts.game.totalFails}</span>
+              <strong className="current-stats-value">{currentStatistics.fails}</strong>
+            </div>
+          </div>
+        </section>
       </main>
       {unlockedToastIds.length > 0 && (
         <div className="achievement-toast-area">

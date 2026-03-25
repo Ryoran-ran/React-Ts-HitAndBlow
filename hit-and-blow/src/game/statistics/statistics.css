@@ -1,10 +1,10 @@
-.achievement-layout {
+.statistics-layout {
   display: flex;
   justify-content: center;
   padding: 16px 12px;
 }
 
-.achievement-card {
+.statistics-card {
   width: min(720px, 100%);
   background: linear-gradient(180deg, #f4f6f8 0%, #e5eaef 100%);
   border: 1px solid #bac4cf;
@@ -16,89 +16,61 @@
   flex-direction: column;
 }
 
-.achievement-title {
+.statistics-title {
   margin: 0;
   font-size: 1.55rem;
   color: #111827;
 }
 
-.achievement-subtitle {
+.statistics-subtitle {
   margin: 6px 0 12px;
   font-size: 0.92rem;
   color: #4b5563;
 }
 
-.achievement-list {
+.statistics-grid,
+.statistics-preset-list {
   display: grid;
   gap: 10px;
+}
+
+.statistics-results {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
 }
 
-.achievement-filter {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 12px;
-  color: #1f2937;
-  font-weight: 700;
+.statistics-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 10px;
 }
 
-.achievement-filter input {
-  width: 18px;
-  height: 18px;
-}
-
-.achievement-item {
+.statistics-panel {
   border-radius: 12px;
   padding: 12px 14px;
   border: 1px solid #cdd6de;
   background: #f8fafc;
 }
 
-.achievement-item.is-unlocked {
-  border-color: #7c9b6a;
-  background: linear-gradient(180deg, #eef7e7 0%, #e2f0d8 100%);
-}
-
-.achievement-item.is-locked {
-  opacity: 0.72;
-}
-
-.achievement-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.achievement-item-title {
-  margin: 0;
-  font-size: 1rem;
+.statistics-panel-title {
+  margin: 0 0 8px;
   color: #111827;
+  font-size: 1rem;
 }
 
-.achievement-badge {
-  white-space: nowrap;
-  font-size: 0.85rem;
-  font-weight: 700;
+.statistics-list {
+  display: grid;
+  gap: 4px;
+  font-size: 0.92rem;
   color: #334155;
 }
 
-.achievement-item-description {
-  margin: 6px 0 0;
-  font-size: 0.92rem;
-  color: #475569;
-}
-
-.achievement-empty {
+.statistics-list p {
   margin: 0;
-  color: #64748b;
 }
 
-.achievement-back-btn {
+.statistics-back-btn {
   width: 100%;
   min-height: 42px;
   margin-top: 12px;
@@ -111,18 +83,17 @@
   cursor: pointer;
 }
 
-.achievement-back-btn:active {
+.statistics-back-btn:active {
   transform: translateY(1px);
 }
 
 @media (max-width: 640px) {
-  .achievement-card {
+  .statistics-card {
     padding: 16px;
     max-height: calc(100vh - 120px);
   }
 
-  .achievement-item-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .statistics-grid {
+    grid-template-columns: 1fr;
   }
 }
