@@ -17,6 +17,7 @@ export type PlaySettings = {
   buttonLabelMode?: ButtonLabelMode
   answerLimit?: number
   difficultyPreset?: DifficultyPresetId
+  showCurrentStats?: boolean
 }
 
 export type JudgeResult = {
