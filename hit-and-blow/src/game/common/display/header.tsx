@@ -5,6 +5,7 @@ import type { DifficultyPresetId } from '../function/type.ts'
 type HeaderItem = {
   label: string
   value: string
+  alignRight?: boolean
 }
 
 type AppHeaderProps = {
@@ -29,7 +30,11 @@ function AppHeader({ settings = [], difficultyPreset }: AppHeaderProps) {
           {settings.map((item) => (
             <div key={item.label} className="app-header__setting-item">
               <dt className="app-header__setting-label">{item.label}</dt>
-              <dd className="app-header__setting-value">{item.value}</dd>
+              <dd
+                className={`app-header__setting-value ${item.alignRight ? 'app-header__setting-value--right' : ''}`.trim()}
+              >
+                {item.value}
+              </dd>
             </div>
           ))}
         </dl>

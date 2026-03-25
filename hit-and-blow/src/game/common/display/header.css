@@ -74,6 +74,10 @@
   white-space: nowrap;
 }
 
+.app-header__setting-value--right {
+  text-align: right;
+}
+
 @media (max-width: 768px) {
   .app-header {
     grid-template-columns: 1fr;
