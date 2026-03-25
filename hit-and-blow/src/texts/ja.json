@@ -16,6 +16,11 @@
     ,"showStatistics":"統計を見る"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
+    ,"booleanOptions": {
+      "true": "あり",
+      "false": "なし"
+    }
+    ,"none":"なし"
     ,"difficultyOptions": {
       "custom": "カスタム",
       "easy": "桃",
