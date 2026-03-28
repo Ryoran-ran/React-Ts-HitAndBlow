@@ -170,7 +170,7 @@ function AppPlayGame() {
 
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [gameClear, maxDigits, onAnswer])
+  }, [maxDigits, onAnswer, status, useButton])
 
   const onReset = () => {
     //表示を初期化
