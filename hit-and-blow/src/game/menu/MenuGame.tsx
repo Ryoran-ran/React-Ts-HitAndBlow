@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {useLocation ,useNavigate } from 'react-router-dom'
 import texts from '../../texts/ja.json'
 import './menu.css'
@@ -39,11 +39,27 @@ export default function AppMenuGame() {
 
   const location = useLocation()
   const settings = (location.state ?? {}) as PlaySettings
+  const localStorageKeyShowCurrentStats = 'hit-and-blow.showCurrentStats'
 
   const [ruleDuplication, setRuleDuplication] = useState(settings.ruleDuplication ?? false)
   const [maxDigits, setMaxDigits] = useState(settings.maxDigits ?? 4)
   const [useButton, setUseButton] = useState(settings.useButton ?? 10)
   const [answerLimit, setAnswerLimit] = useState(settings.answerLimit ?? 0)
+  const [showCurrentStats, setShowCurrentStats] = useState(() => {
+    if (typeof settings.showCurrentStats === 'boolean') {
+      return settings.showCurrentStats
+    }
+
+    const savedValue = window.localStorage.getItem(localStorageKeyShowCurrentStats)
+    if (savedValue === 'true') {
+      return true
+    }
+    if (savedValue === 'false') {
+      return false
+    }
+
+    return true
+  })
   const [buttonLabelMode, setButtonLabelMode] = useState<ButtonLabelMode>(
     settings.buttonLabelMode ?? 'number'
   )
@@ -86,11 +102,15 @@ export default function AppMenuGame() {
     setRuleDuplication(preset.ruleDuplication)
   }
 
+  useEffect(() => {
+    window.localStorage.setItem(localStorageKeyShowCurrentStats, String(showCurrentStats))
+  }, [localStorageKeyShowCurrentStats, showCurrentStats])
+
   return (
     <main className="menu-layout">
       <section className="menu-card">
         <h2 className="menu-title">{texts.menu.menuTitle}</h2>
-        <p className="menu-subtitle">{texts.menu.menuTitle}</p>
+        <p className="menu-subtitle">{texts.menu.menuExplain}</p>
 
         <div className="menu-field">
           <label className="menu-label" htmlFor="difficulty-preset">
@@ -254,6 +274,16 @@ export default function AppMenuGame() {
           {texts.menu.ruleDuplication}
         </label>
 
+        <label className="menu-check" htmlFor="show-current-stats">
+          <input
+            id="show-current-stats"
+            type="checkbox"
+            checked={showCurrentStats}
+            onChange={(e) => setShowCurrentStats(e.target.checked)}
+          />
+          {texts.menu.showCurrentStats}
+        </label>
+
         {/* ゲームスタート */}
         <button
           className="menu-start-btn"
@@ -266,6 +296,7 @@ export default function AppMenuGame() {
                 buttonLabelMode,
                 answerLimit,
                 difficultyPreset,
+                showCurrentStats,
               },
             })
           }

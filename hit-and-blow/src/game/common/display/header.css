@@ -1,9 +1,33 @@
 .app-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 60%);
+  gap: 12px 20px;
+  align-items: end;
   padding: 16px 20px;
   background: #1f2937;
   color: #ffffff;
   border-bottom: 2px solid #111827;
   text-align: left;
+}
+
+.app-header--difficulty-easy {
+  border-right: 10px solid #f09199;
+}
+
+.app-header--difficulty-normal {
+  border-right: 10px solid #22c55e;
+}
+
+.app-header--difficulty-hard {
+  border-right: 10px solid #3b82f6;
+}
+
+.app-header--difficulty-expert {
+  border-right: 10px solid #a855f7;
+}
+
+.app-header__main {
+  min-width: 0;
 }
 
 .app-header__title {
@@ -16,4 +40,52 @@
   margin: 6px 0 0;
   font-size: 14px;
   color: #d1d5db;
+}
+
+.app-header__settings {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-content: flex-end;
+  min-width: 0;
+}
+
+.app-header__setting-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.app-header__setting-label {
+  margin: 0;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.app-header__setting-value {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #f9fafb;
+  white-space: nowrap;
+}
+
+.app-header__setting-value--right {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header__settings {
+    margin-top: 2px;
+    justify-items: start;
+    justify-content: flex-start;
+  }
 }

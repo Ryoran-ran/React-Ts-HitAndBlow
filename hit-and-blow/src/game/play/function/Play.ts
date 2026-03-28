@@ -3,8 +3,17 @@ import type {JudgeResult} from '../../common/function/type.ts'
 
 export const MAX_DIGITS = 4
 
+const DIGIT_ORDER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] as const
+
+export function getAvailableDigitValues(useButton: number): string[] {
+    const maxButtons = Math.max(0, Math.min(useButton, DIGIT_ORDER.length))
+    return DIGIT_ORDER.slice(0, maxButtons)
+}
+
 export function addDigit(current: string, digit: number ,maxDigits: number ,useButton: number): string {
-    if (current.length >= maxDigits || digit >= useButton ) return current
+    const nextDigit = String(digit)
+    const availableDigits = getAvailableDigitValues(useButton)
+    if (current.length >= maxDigits || !availableDigits.includes(nextDigit)) return current
     return current + String(digit)
 }
 
@@ -68,20 +77,22 @@ export function createAnswer(
     maxDigits: number,
     ruleDuplication: boolean
     ): string {
+    const availableDigits = getAvailableDigitValues(useButton)
+
     if (ruleDuplication) {
         // 重複あり: 毎桁ランダム抽選（同じ数字が出てもOK）
         return Array.from(
         { length: maxDigits },
-        () => String(Math.floor(Math.random() * useButton))
+        () => availableDigits[Math.floor(Math.random() * availableDigits.length)]
         ).join('')
     }
 
     // 重複なし: シャッフルして先頭maxDigits個
-    if (maxDigits > useButton) {
+    if (maxDigits > availableDigits.length) {
         throw new Error(texts.errors.ruleDuplication)
     }
 
-    const nums = Array.from({ length: useButton }, (_, i) => String(i))
+    const nums = [...availableDigits]
     for (let i = nums.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
         ;[nums[i], nums[j]] = [nums[j], nums[i]]

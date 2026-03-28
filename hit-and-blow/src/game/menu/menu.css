@@ -49,6 +49,10 @@
   background: #f9fafb;
   color: #111827;
   font-size: 0.95rem;
+  text-align: left;
+}
+
+.menu-input[type='number'] {
   text-align: right;
 }
 

@@ -1,12 +1,44 @@
 import './header.css'
 import texts from '../../../texts/ja.json'
+import type { DifficultyPresetId } from '../function/type.ts'
 
-function AppHeader() {
+type HeaderItem = {
+  label: string
+  value: string
+  alignRight?: boolean
+}
+
+type AppHeaderProps = {
+  settings?: HeaderItem[]
+  difficultyPreset?: DifficultyPresetId
+}
+
+function AppHeader({ settings = [], difficultyPreset }: AppHeaderProps) {
+  const difficultyClass =
+    difficultyPreset && difficultyPreset !== 'custom'
+      ? `app-header--difficulty-${difficultyPreset}`
+      : ''
 
   return (
-    <header className="app-header">
-      <h1 className="app-header__title">{texts.header.title}</h1>
-      <p className="app-header__subtitle">{texts.header.subtitle}</p>
+    <header className={`app-header ${difficultyClass}`.trim()}>
+      <div className="app-header__main">
+        <h1 className="app-header__title">{texts.header.title}</h1>
+        <p className="app-header__subtitle">{texts.header.subtitle}</p>
+      </div>
+      {settings.length > 0 && (
+        <dl className="app-header__settings" aria-label="現在の設定">
+          {settings.map((item) => (
+            <div key={item.label} className="app-header__setting-item">
+              <dt className="app-header__setting-label">{item.label}</dt>
+              <dd
+                className={`app-header__setting-value ${item.alignRight ? 'app-header__setting-value--right' : ''}`.trim()}
+              >
+                {item.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </header>
   )
 }

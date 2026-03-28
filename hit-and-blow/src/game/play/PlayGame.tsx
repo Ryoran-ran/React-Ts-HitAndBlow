@@ -39,8 +39,12 @@ function AppPlayGame() {
   const buttonLabelMode = (settings.buttonLabelMode ?? 'number') as ButtonLabelMode
   const answerLimit = settings.answerLimit ?? 0
   const difficultyPreset = settings.difficultyPreset ?? 'custom'
+  const showCurrentStats = settings.showCurrentStats ?? true
 
-  const numberButtons = texts.game.numberButtons[buttonLabelMode].slice(0, useButton)
+  const numberButtons = PlayGame.getAvailableDigitValues(useButton).flatMap((value) => {
+    const button = texts.game.numberButtons[buttonLabelMode].find((item) => item.value === value)
+    return button ? [button] : []
+  })
 
   const buttonLabelMap = Object.fromEntries(
     numberButtons.map((btn) => [btn.value, btn.label])
@@ -259,6 +263,7 @@ function AppPlayGame() {
                     buttonLabelMode,
                     answerLimit,
                     difficultyPreset,
+                    showCurrentStats,
                   },
                 })
               }
@@ -298,31 +303,33 @@ function AppPlayGame() {
           </div>
         </aside>
 
-        <section className="current-stats-panel bottom-stats-panel">
-          <h3 className="current-stats-title">{texts.game.titleCurrentStats}</h3>
-          <div className="current-stats-grid">
-            <div className="current-stats-item">
-              <span className="current-stats-label">{texts.game.averageTurns}</span>
-              <strong className="current-stats-value">
-                {averageTurns ?? texts.game.noRecord}
-              </strong>
+        {showCurrentStats && (
+          <section className="current-stats-panel bottom-stats-panel">
+            <h3 className="current-stats-title">{texts.game.titleCurrentStats}</h3>
+            <div className="current-stats-grid">
+              <div className="current-stats-item">
+                <span className="current-stats-label">{texts.game.averageTurns}</span>
+                <strong className="current-stats-value">
+                  {averageTurns ?? texts.game.noRecord}
+                </strong>
+              </div>
+              <div className="current-stats-item">
+                <span className="current-stats-label">{texts.game.bestClearTurns}</span>
+                <strong className="current-stats-value">
+                  {currentStatistics.bestClearTurns ?? texts.game.noRecord}
+                </strong>
+              </div>
+              <div className="current-stats-item">
+                <span className="current-stats-label">{texts.game.totalClears}</span>
+                <strong className="current-stats-value">{currentStatistics.clears}</strong>
+              </div>
+              <div className="current-stats-item">
+                <span className="current-stats-label">{texts.game.totalFails}</span>
+                <strong className="current-stats-value">{currentStatistics.fails}</strong>
+              </div>
             </div>
-            <div className="current-stats-item">
-              <span className="current-stats-label">{texts.game.bestClearTurns}</span>
-              <strong className="current-stats-value">
-                {currentStatistics.bestClearTurns ?? texts.game.noRecord}
-              </strong>
-            </div>
-            <div className="current-stats-item">
-              <span className="current-stats-label">{texts.game.totalClears}</span>
-              <strong className="current-stats-value">{currentStatistics.clears}</strong>
-            </div>
-            <div className="current-stats-item">
-              <span className="current-stats-label">{texts.game.totalFails}</span>
-              <strong className="current-stats-value">{currentStatistics.fails}</strong>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
       {unlockedToastIds.length > 0 && (
         <div className="achievement-toast-area">

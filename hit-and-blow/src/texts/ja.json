@@ -14,8 +14,14 @@
     ,"gameStart":"ゲームスタート"
     ,"showAchievements":"実績を見る"
     ,"showStatistics":"統計を見る"
+    ,"showCurrentStats":"プレイ画面で統計を表示"
     ,"buttonLabelMode": "ボタン表示"
     ,"answerLimit":"回答回数制限"
+    ,"booleanOptions": {
+      "true": "あり",
+      "false": "なし"
+    }
+    ,"none":"なし"
     ,"difficultyOptions": {
       "custom": "カスタム",
       "easy": "桃",
